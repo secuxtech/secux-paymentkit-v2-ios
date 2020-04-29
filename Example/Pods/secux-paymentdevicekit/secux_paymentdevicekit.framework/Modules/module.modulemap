@@ -1,0 +1,11 @@
+framework module secux_paymentdevicekit {
+  umbrella header "secux_paymentdevicekit.h"
+
+  export *
+  module * { export * }
+}
+
+module secux_paymentdevicekit.Swift {
+    header "secux_paymentdevicekit-Swift.h"
+    requires objc
+}

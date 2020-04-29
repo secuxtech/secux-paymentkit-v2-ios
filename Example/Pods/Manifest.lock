@@ -1,0 +1,23 @@
+PODS:
+  - secux-paymentdevicekit (1.0.2)
+  - secux-paymentkit-v2 (1.0.0):
+    - secux-paymentdevicekit (~> 1.0.2)
+
+DEPENDENCIES:
+  - secux-paymentkit-v2 (from `../`)
+
+SPEC REPOS:
+  trunk:
+    - secux-paymentdevicekit
+
+EXTERNAL SOURCES:
+  secux-paymentkit-v2:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  secux-paymentdevicekit: 32efc184a2235bcce99f6f5199536a719182fe45
+  secux-paymentkit-v2: 8ef9a624580474c7a639e546309cd90e3324fab0
+
+PODFILE CHECKSUM: f1bdcd76804ad21333fa873e4db2d094cac2e232
+
+COCOAPODS: 1.9.1

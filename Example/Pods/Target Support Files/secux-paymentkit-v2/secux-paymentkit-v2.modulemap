@@ -1,0 +1,6 @@
+framework module secux_paymentkit_v2 {
+  umbrella header "secux-paymentkit-v2-umbrella.h"
+
+  export *
+  module * { export * }
+}

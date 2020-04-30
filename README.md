@@ -1,9 +1,9 @@
-# secux-paymentkit
+# secux-paymentkit-v2
 
-[![CI Status](https://img.shields.io/travis/maochuns/secux-paymentkit.svg?style=flat)](https://travis-ci.org/maochuns/secux-paymentkit)
-[![Version](https://img.shields.io/cocoapods/v/secux-paymentkit.svg?style=flat)](https://cocoapods.org/pods/secux-paymentkit)
-[![License](https://img.shields.io/cocoapods/l/secux-paymentkit.svg?style=flat)](https://cocoapods.org/pods/secux-paymentkit)
-[![Platform](https://img.shields.io/cocoapods/p/secux-paymentkit.svg?style=flat)](https://cocoapods.org/pods/secux-paymentkit)
+[![CI Status](https://img.shields.io/travis/maochuns/secux-paymentkit.svg?style=flat)](https://travis-ci.org/maochuns/secux-paymentkit-v2)
+[![Version](https://img.shields.io/cocoapods/v/secux-paymentkit.svg?style=flat)](https://cocoapods.org/pods/secux-paymentkit-v2)
+[![License](https://img.shields.io/cocoapods/l/secux-paymentkit.svg?style=flat)](https://cocoapods.org/pods/secux-paymentkit-v2)
+[![Platform](https://img.shields.io/cocoapods/p/secux-paymentkit.svg?style=flat)](https://cocoapods.org/pods/secux-paymentkit-v2)
 
 ## Example
 
@@ -11,13 +11,16 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Requirements
 
+* iOS 12.0+
+* Swift 5.0
+
 ### Installation
 
 secux-paymentkit is available through [CocoaPods](https://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-    pod 'secux-paymentkit'
+    pod 'secux-paymentkit-v2'
 ```
 
 ### Add bluetooth privacy permissions in the plist
@@ -27,7 +30,7 @@ it, simply add the following line to your Podfile:
 ### Import the module
 
 ```swift 
-    import SecuXPaymentKit
+    import secux_paymentkit_v2
 ```
 
 ## Usage

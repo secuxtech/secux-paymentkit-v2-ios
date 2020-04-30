@@ -19,13 +19,13 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+SecuX paymentkit for P22 v2
                        DESC
 
   s.homepage         = 'https://www.secuxtech.com'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'maochuns' => 'maochuns.sun@gmail.com' }
+  s.author           = { 'SecuX' => 'maochuns.sun@gmail.com' }
   s.source           = { :git => 'https://github.com/secuxtech/secux-paymentkit-ios.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 

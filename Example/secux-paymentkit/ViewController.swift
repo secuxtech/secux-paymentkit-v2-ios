@@ -178,7 +178,10 @@ class ViewController: UIViewController {
         //Pay to store
         //let paymentInfo = "{\"amount\":\"1.5\", \"coinType\":\"DCT\", \"token\":\"SPC\",\"deviceIDhash\":\"f962639145992d7a710d33dcca503575eb85d759\"}"
         
-        let paymentInfo = "{\"amount\":\"2\", \"coinType\":\"DCT:SPC\",\"deviceIDhash\":\"592e41d67ee326f82fd6be518fd488d752f5a1b9\"}"
+        //let paymentInfo = "{\"amount\":\"2\", \"coinType\":\"DCT:SPC\",\"deviceIDhash\":\"592e41d67ee326f82fd6be518fd488d752f5a1b9\"}"
+        
+        let paymentInfo = "{\"amount\":\"2\", \"coinType\":\"DCT:SPC\",\"deviceIDhash\":\"f962639145992d7a710d33dcca503575eb85d759\"}"
+        
         let (ret, data) = paymentManager.getPaymentInfo(paymentInfo: paymentInfo)
         if ret == SecuXRequestResult.SecuXRequestOK, let data = data{
             print("get payment info. done")

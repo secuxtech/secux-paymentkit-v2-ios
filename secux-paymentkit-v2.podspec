@@ -8,9 +8,10 @@
 
 Pod::Spec.new do |s|
   s.name             = 'secux-paymentkit-v2'
-  s.version          = '1.0.0'
+  s.version          = '1.0.2'
   s.summary          = 'iOS Lib for SecuX P22/P20'
   s.swift_version    = '5.0'
+  
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -42,6 +43,6 @@ iOS Lib for SecuX Payment device P22 and P20
   # s.dependency 'AFNetworking', '~> 2.3'
   
   s.static_framework = true
-  s.dependency 'secux-paymentdevicekit', '~> 1.0.3'
+  s.dependency 'secux-paymentdevicekit', '~> 1.0.4'
   
 end

@@ -1,9 +1,9 @@
 use_frameworks!
 
-target 'secux-paymentkit_Example' do
+target 'secux-paymentkit-v2_Example' do
   pod 'secux-paymentkit-v2', :path => '../'
 
-  target 'secux-paymentkit_Tests' do
+  target 'secux-paymentkit-v2_Tests' do
     inherit! :search_paths
 
     

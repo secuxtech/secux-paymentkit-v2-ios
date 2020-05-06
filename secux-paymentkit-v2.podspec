@@ -1,5 +1,5 @@
 #
-# Be sure to run `pod lib lint secux-paymentkit.podspec' to ensure this is a
+# Be sure to run `pod lib lint secux-paymentkit-v2.podspec' to ensure this is a
 # valid spec before submitting.
 #
 # Any lines starting with a # are optional, but their use is encouraged
@@ -9,8 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'secux-paymentkit-v2'
   s.version          = '1.0.0'
-  s.summary          = 'secux-paymentkit-v2 for SecuX P20/P22'
-  s.swift_version    = '5.0'
+  s.summary          = 'iOS Lib for SecuX P22/P20'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -19,22 +18,22 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-SecuX paymentkit for P22 v2
+iOS Lib for SecuX Payment device P22 and P20
                        DESC
 
   s.homepage         = 'https://www.secuxtech.com'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'SecuX' => 'maochuns.sun@gmail.com' }
-  s.source           = { :git => 'https://github.com/secuxtech/secux-paymentkit-ios.git', :tag => s.version.to_s }
+  s.author           = { 'maochuns' => 'maochuns.sun@gmail.com' }
+  s.source           = { :git => 'https://github.com/secuxtech/secux-paymentkit-v2-ios', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '12.0'
 
-  s.source_files = 'secux-paymentkit/Classes/**/*'
+  s.source_files = 'secux-paymentkit-v2/Classes/**/*'
   
   # s.resource_bundles = {
-  #   'secux-paymentkit' => ['secux-paymentkit/Assets/*.png']
+  #   'secux-paymentkit-v2' => ['secux-paymentkit-v2/Assets/*.png']
   # }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
@@ -42,6 +41,6 @@ SecuX paymentkit for P22 v2
   # s.dependency 'AFNetworking', '~> 2.3'
   
   s.static_framework = true
-  #s.dependency 'SPManager', '~> 0.0.2'
-  s.dependency 'secux-paymentdevicekit', '~> 1.0.2'
+  s.dependency 'secux-paymentdevicekit', '~> 1.0.3'
+  
 end

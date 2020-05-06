@@ -1,5 +1,4 @@
 import XCTest
-//import secux-paymentkit
 
 class Tests: XCTestCase {
     

@@ -1,9 +1,10 @@
 {
   "name": "secux-paymentkit-v2",
   "version": "1.0.0",
-  "summary": "A short description of secux-paymentkit-v2.",
-  "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://github.com/maochuns/secux-paymentkit-v2",
+  "summary": "iOS Lib for SecuX P22/P20",
+  "swift_versions": "5.0",
+  "description": "iOS Lib for SecuX Payment device P22 and P20",
+  "homepage": "https://www.secuxtech.com",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
@@ -12,7 +13,7 @@
     "maochuns": "maochuns.sun@gmail.com"
   },
   "source": {
-    "git": "https://github.com/maochuns/secux-paymentkit-v2.git",
+    "git": "https://github.com/secuxtech/secux-paymentkit-v2-ios",
     "tag": "1.0.0"
   },
   "platforms": {
@@ -24,5 +25,6 @@
     "secux-paymentdevicekit": [
       "~> 1.0.3"
     ]
-  }
+  },
+  "swift_version": "5.0"
 }

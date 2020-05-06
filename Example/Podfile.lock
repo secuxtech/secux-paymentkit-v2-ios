@@ -16,7 +16,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   secux-paymentdevicekit: ce565d3db0464ea5b6dfc23e08e79010b50a5ac0
-  secux-paymentkit-v2: f71e6f2d3028a151f9ee4afc8c4625e7b70d9787
+  secux-paymentkit-v2: c25725f26f7be1554b924f8225ce9c58bfb51d27
 
 PODFILE CHECKSUM: f4bd0b64d77cf2d2742f6d2d3699c71f2a62fff9
 

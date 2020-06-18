@@ -347,4 +347,20 @@ open class SecuXAccountManager{
         
         return (ret, historyArr)
     }
+    
+    public func addAccount(coinType:String) -> (SecuXRequestResult, Data?){
+        logw("addAccount \(coinType)")
+        
+        return secuXSvrReqHandler.accountOperation(coinType: coinType, accountName: "", desc: "Add \(coinType)", type: "Add")
+    }
+    
+    public func unbindAccount(coinType:String, accountName:String) -> (SecuXRequestResult, Data?){
+        logw("unbindAccount \(coinType)")
+        return secuXSvrReqHandler.accountOperation(coinType: coinType, accountName: accountName, desc: "Unbind", type: "Unbind")
+    }
+    
+    public func bindAccount(coinType:String, accountName:String) -> (SecuXRequestResult, Data?){
+           logw("bindAccount \(coinType)")
+           return secuXSvrReqHandler.accountOperation(coinType: coinType, accountName: accountName, desc: "Bind", type: "Binding")
+       }
 }

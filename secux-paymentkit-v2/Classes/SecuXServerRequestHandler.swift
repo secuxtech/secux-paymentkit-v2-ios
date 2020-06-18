@@ -227,4 +227,16 @@ class SecuXServerRequestHandler: RestRequestHandler {
         return self.postRequestSync(urlstr: SecuXServerRequestHandler.transferHistoryUrl, param: param, token: SecuXServerRequestHandler.theToken)
     }
     
+    func accountOperation(coinType:String, accountName:String, desc:String, type:String) -> (SecuXRequestResult, Data?){
+        logw("accountOperation \(type)")
+        
+        if SecuXServerRequestHandler.theToken.count == 0{
+            logw("no token")
+            return (SecuXRequestResult.SecuXRequestNoToken, nil)
+        }
+        
+        let param = ["coinType": coinType, "account": accountName, "desc":desc, "actionType":type] as [String : Any]
+        return self.postRequestSync(urlstr: SecuXServerRequestHandler.transferHistoryUrl, param: param, token: SecuXServerRequestHandler.theToken)
+    }
+    
 }

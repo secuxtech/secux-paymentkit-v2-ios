@@ -27,6 +27,7 @@ class SecuXServerRequestHandler: RestRequestHandler {
     static let getDeviceInfoUrl = baseURL + "/api/Terminal/GetDeviceInfo"
     static let getSupportedSymbol = baseURL + "/api/Terminal/GetSupportedSymbol"
     static let getChainAccountList = baseURL + "/api/Consumer/GetChainAccountList"
+    static let accountOperationUrl = baseURL + "/api/Consumer/BindingChainAccount"
     
     private static var theToken = ""
     
@@ -212,7 +213,7 @@ class SecuXServerRequestHandler: RestRequestHandler {
         }
         
         let param = ["symbol":token, "page":1, "count":10, "columnName":"", "sorting":"", "transactionCode":transactionCode] as [String : Any]
-        return self.postRequestSync(urlstr: SecuXServerRequestHandler.paymentHistoryUrl, param: param, token: SecuXServerRequestHandler.theToken)
+        return self.postRequestSync(urlstr: SecuXServerRequestHandler.accountOperationUrl, param: param, token: SecuXServerRequestHandler.theToken)
     }
     
     func getTransferHistory(cointType: String, token: String, page: Int, pageItemCount: Int)->(SecuXRequestResult, Data?){
@@ -224,7 +225,7 @@ class SecuXServerRequestHandler: RestRequestHandler {
         }
         
         let param = ["coinType": cointType, "symbol": token, "page":page, "count":pageItemCount] as [String : Any]
-        return self.postRequestSync(urlstr: SecuXServerRequestHandler.transferHistoryUrl, param: param, token: SecuXServerRequestHandler.theToken)
+        return self.postRequestSync(urlstr: SecuXServerRequestHandler.accountOperationUrl, param: param, token: SecuXServerRequestHandler.theToken)
     }
     
     func accountOperation(coinType:String, accountName:String, desc:String, type:String) -> (SecuXRequestResult, Data?){
@@ -236,7 +237,7 @@ class SecuXServerRequestHandler: RestRequestHandler {
         }
         
         let param = ["coinType": coinType, "account": accountName, "desc":desc, "actionType":type] as [String : Any]
-        return self.postRequestSync(urlstr: SecuXServerRequestHandler.transferHistoryUrl, param: param, token: SecuXServerRequestHandler.theToken)
+        return self.postRequestSync(urlstr: SecuXServerRequestHandler.accountOperationUrl, param: param, token: SecuXServerRequestHandler.theToken)
     }
     
 }

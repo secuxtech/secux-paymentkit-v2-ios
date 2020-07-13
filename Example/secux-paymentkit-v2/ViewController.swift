@@ -19,6 +19,10 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        let util = SecuXEncUtility()
+        let encInfo = util.encryptInfoData(info: "{\"transactionId\" : \"805eefa0db020bf5\",\"memo\": \"test\"}", key: "JdVa0oOqQAr0ZMdtcTwHrQ==")
+        print("encInfo \(encInfo)")
+        
         self.paymentManager.delegate = self
         DispatchQueue.global(qos: .default).async {
             self.doAccountActions()

@@ -20,6 +20,47 @@ open class SecuXPaymentManagerBase{
     open var delegate: SecuXPaymentManagerDelegate?
 
     
+    internal func sendRefundRefillInfoToDevice(dataToDev:Data) -> (SecuXRequestResult, String){
+        do{
+            let json  = try JSONSerialization.jsonObject(with: dataToDev, options: []) as! [String : Any]
+            print("sendInfoToDevice recv \(json)  \n--------")
+            
+            if let statusCode = json["statusCode"] as? Int{
+                if statusCode != 200{
+                    let statusDesc = json["statusDesc"] as? String ?? ""
+                    return (SecuXRequestResult.SecuXRequestFailed, "Invalid status code \(statusCode) from server! \(statusDesc)")
+                }
+            }
+            
+            if let machineControlParams = json["machineControlParam"] as? [String : Any],
+                let encryptedStr = json["encryptedTransaction"] as? String,
+                let transCode = json["transactionCode"] as? String,
+                let encrypted = Data(base64Encoded: encryptedStr){
+                
+            
+                logw("AccountPaymentViewModel doPaymentVerification")
+               
+                
+                let (ret, errorMsg) = self.paymentPeripheralManager.doPaymentVerification(encPaymentData: encrypted, machineControlParams: machineControlParams)
+                if ret == .OprationSuccess{
+                    return (SecuXRequestResult.SecuXRequestOK, transCode)
+                }else{
+                    return (SecuXRequestResult.SecuXRequestFailed, errorMsg)
+                }
+              
+                
+            }else{
+                
+                return (SecuXRequestResult.SecuXRequestFailed, "Invalid data reply from server")
+                
+            }
+            
+        }catch{
+            print("doPayment error: " + error.localizedDescription)
+            
+            return (SecuXRequestResult.SecuXRequestFailed, "Parsing server reply error")
+        }
+    }
     
     private func sendInfoToDevice(paymentInfo: PaymentInfo){
         

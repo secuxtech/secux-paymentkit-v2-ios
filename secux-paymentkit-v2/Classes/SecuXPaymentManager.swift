@@ -211,5 +211,29 @@ open class SecuXPaymentManager: SecuXPaymentManagerBase {
             self.doPayment(paymentInfo: payInfo, devConfigInfo: payDevConfigInfo)
         }
     }
+    
+    open func doRefund(devID:String, devIDHash:String)->(SecuXRequestResult, String){
+        let (ret, ivkey, refundInfo) = paymentPeripheralManager.getRefundInfo(devID: devID)
+        if ret == .OprationSuccess, let refundInfo = refundInfo{
+            let (svrRet, replyData) = self.secXSvrReqHandler.refund(devIDHash: devIDHash, ivKey: ivkey, dataHash: refundInfo)
+            if svrRet == SecuXRequestResult.SecuXRequestOK, let replyData = replyData{
+                return sendRefundRefillInfoToDevice(dataToDev: replyData)
+            }
+        }
+        
+        return (SecuXRequestResult.SecuXRequestFailed, "Get refund infor. from device failed! Error: \(ivkey)");
+    }
+    
+    open func doRefill(devID:String, devIDHash:String)->(SecuXRequestResult, String){
+        let (ret, ivkey, refundInfo) = paymentPeripheralManager.getRefundInfo(devID: devID)
+        if ret == .OprationSuccess, let refundInfo = refundInfo{
+            let (svrRet, replyData) = self.secXSvrReqHandler.refill(devIDHash: devIDHash, ivKey: ivkey, dataHash: refundInfo)
+            if svrRet == SecuXRequestResult.SecuXRequestOK, let replyData = replyData{
+                return sendRefundRefillInfoToDevice(dataToDev: replyData)
+            }
+        }
+        
+        return (SecuXRequestResult.SecuXRequestFailed, "Get refill infor. from device failed! Error: \(ivkey)");
+    }
 
 }

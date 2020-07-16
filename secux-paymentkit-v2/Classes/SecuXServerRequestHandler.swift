@@ -28,6 +28,8 @@ class SecuXServerRequestHandler: RestRequestHandler {
     static let getSupportedSymbol = baseURL + "/api/Terminal/GetSupportedSymbol"
     static let getChainAccountList = baseURL + "/api/Consumer/GetChainAccountList"
     static let accountOperationUrl = baseURL + "/api/Consumer/BindingChainAccount"
+    static let refundUrl = baseURL + "/api/Consumer/Refund";
+    static let refillUrl = baseURL + "/api/Consumer/Refill";
     
     private static var theToken = ""
     
@@ -240,4 +242,23 @@ class SecuXServerRequestHandler: RestRequestHandler {
         return self.postRequestSync(urlstr: SecuXServerRequestHandler.accountOperationUrl, param: param, token: SecuXServerRequestHandler.theToken)
     }
     
+    func refund(devIDHash:String, ivKey:String, dataHash:String) -> (SecuXRequestResult, Data?){
+        if SecuXServerRequestHandler.theToken.count == 0{
+            logw("no token")
+            return (SecuXRequestResult.SecuXRequestNoToken, nil)
+        }
+        
+        let param = ["deviceIDhash": devIDHash, "ivKey": ivKey, "hashTx":dataHash] as [String : Any]
+        return self.postRequestSync(urlstr: SecuXServerRequestHandler.refundUrl, param: param, token: SecuXServerRequestHandler.theToken)
+    }
+    
+    func refill(devIDHash:String, ivKey:String, dataHash:String) -> (SecuXRequestResult, Data?){
+        if SecuXServerRequestHandler.theToken.count == 0{
+            logw("no token")
+            return (SecuXRequestResult.SecuXRequestNoToken, nil)
+        }
+        
+        let param = ["deviceIDhash": devIDHash, "ivKey": ivKey, "hashTx":dataHash] as [String : Any]
+        return self.postRequestSync(urlstr: SecuXServerRequestHandler.refillUrl, param: param, token: SecuXServerRequestHandler.theToken)
+    }
 }

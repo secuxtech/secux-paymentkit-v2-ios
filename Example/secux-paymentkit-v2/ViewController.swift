@@ -23,10 +23,15 @@ class ViewController: UIViewController {
         let encInfo = util.encryptInfoData(info: "{\"transactionId\" : \"805eefa0db020bf5\",\"memo\": \"test\"}", key: "JdVa0oOqQAr0ZMdtcTwHrQ==")
         print("encInfo \(encInfo)")
         
+        theUserAccount = SecuXUserAccount(email: "maochuntest1@secuxtech.com", phone: "0975123456", password: "12345678")
+        self.accountManager.setBaseServer(url: "https://pmsweb-test.secux.io")
+        
         self.paymentManager.delegate = self
         DispatchQueue.global(qos: .default).async {
-            self.doAccountActions()
-            self.doPaymentActions()
+            //self.doAccountActions()
+            //self.doPaymentActions()
+            
+            self.doRefundReillTest()
         }
     }
 
@@ -37,7 +42,7 @@ class ViewController: UIViewController {
 
     //Try account related functions
     func doAccountActions(){
-        theUserAccount = SecuXUserAccount(email: "maochuntest1@secuxtech.com", phone: "0975123456", password: "12345678")
+        
         //Get all server supported coin and token
         
         let (getCoinTokenRet, coinTokenReplyData, coinTokenArray) = accountManager.getSupportedCoinTokenArray()
@@ -72,7 +77,6 @@ class ViewController: UIViewController {
         
         //(ret, data) = accountManager.changePassword(oldPwd: "12345678", newPwd: "123456")
         //(ret, data) = accountManager.changePassword(oldPwd: "123456", newPwd: "12345678")
-        
         
         
         //Get all coin account
@@ -204,39 +208,47 @@ class ViewController: UIViewController {
             }
             
           
-            let (reqRet, storeInfo, img, supportedCoinTokenArray) = paymentManager.getStoreInfo(devID: devIDHash)
-            guard reqRet == SecuXRequestResult.SecuXRequestOK, storeInfo.count > 0, let imgStore = img,
-                let storeData = storeInfo.data(using: String.Encoding.utf8),
-                let coinTokenArray = supportedCoinTokenArray, coinTokenArray.count > 0,
-                let storeInfoJson = try? JSONSerialization.jsonObject(with: storeData, options: []) as? [String:Any],
-                let storeName = storeInfoJson["name"] as? String,
-                let deviceID = storeInfoJson["deviceId"] as? String else{
+            let (reqRet, error, info) = paymentManager.getStoreInfo(devID: devIDHash)
+            guard reqRet == SecuXRequestResult.SecuXRequestOK, let storeInfo = info else{
                     print("Get store information from server failed!")
                     return
             }
             
              
-            print("Get store info. done! storename=\(storeName) supportedCoinTokenArr=\(coinTokenArray)")
+            print("Get store info. done! storename=\(storeInfo.name)")
             
             var payinfoDict = [String : String]()
             payinfoDict["amount"] = "12"
             payinfoDict["coinType"] = "DCT"
             payinfoDict["token"] = "SPC"
-            payinfoDict["deviceID"] = deviceID
+            payinfoDict["deviceID"] = storeInfo.devID
             
             guard let jsonData = try? JSONSerialization.data(withJSONObject: payinfoDict, options: []),
                 let paymentInfo = String(data: jsonData, encoding: String.Encoding.utf8) else{
                     self.showMessage(title: "Invalid payment information", message: "Payment abort!")
                     return
             }
-            self.paymentManager.doPaymentAsync(storeInfo: storeInfo, paymentInfo: paymentInfo)
+            self.paymentManager.doPaymentAsync(storeInfo: storeInfo.info, paymentInfo: paymentInfo)
             
     
         }else{
             print("get payment info. from server failed")
         }
+    
+    }
+    
+    func doRefundReillTest(){
+        let (ret, data) = accountManager.loginUserAccount(userAccount: theUserAccount!)
+        guard ret == SecuXRequestResult.SecuXRequestOK else{
+            print("login failed!")
+            if let data = data{
+                print("Error: \(String(data: data, encoding: String.Encoding.utf8) ?? "")")
+            }
+            return
+        }
         
-        
+        let (refundRet, info) = self.paymentManager.doRefund(devID: "811c000009c5", devIDHash: "592e41d67ee326f82fd6be518fd488d752f5a1b9")
+        print("refund result \(refundRet), \(info)")
     }
     
     

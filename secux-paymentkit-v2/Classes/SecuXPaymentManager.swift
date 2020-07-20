@@ -94,6 +94,31 @@ open class SecuXPaymentManager: SecuXPaymentManagerBase {
         super.init()
     }
     
+    
+    open func getStoreInfo(devID:String) -> (SecuXRequestResult, String, SecuXStoreInfo?){
+        
+        let (ret, data) = self.secXSvrReqHandler.getStoreInfo(devID: devID)
+        if ret == SecuXRequestResult.SecuXRequestOK, let storeInfo = data{
+            do{
+                let storeInfo = try SecuXStoreInfo.init(storeData: storeInfo)
+                return (SecuXRequestResult.SecuXRequestOK, "", storeInfo)
+                
+            }catch{
+                logw("getAccountInfo error: " )
+                return (SecuXRequestResult.SecuXRequestFailed, "Invalid store info.", nil)
+            }
+            
+        }
+            
+        var errorMsg = ""
+        if let data = data, let error = String(data: data, encoding: .utf8){
+            errorMsg = error;
+        }
+        return (SecuXRequestResult.SecuXRequestFailed, errorMsg, nil)
+        
+    }
+    
+    /*
     open func getStoreInfo(devID:String) -> (SecuXRequestResult, String, UIImage?, [(coin:String, token:String)]?){
         
         let (ret, data) = self.secXSvrReqHandler.getStoreInfo(devID: devID)
@@ -136,6 +161,7 @@ open class SecuXPaymentManager: SecuXPaymentManagerBase {
         return (ret, "", nil, nil)
         
     }
+    */
     
     open func getPaymentInfo(paymentInfo: String)->(SecuXRequestResult, Data?){
        

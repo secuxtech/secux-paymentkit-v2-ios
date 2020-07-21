@@ -244,6 +244,11 @@ open class SecuXPaymentManager: SecuXPaymentManagerBase {
             let (svrRet, replyData) = self.secXSvrReqHandler.refund(devIDHash: devIDHash, ivKey: ivkey, dataHash: refundInfo)
             if svrRet == SecuXRequestResult.SecuXRequestOK, let replyData = replyData{
                 return sendRefundRefillInfoToDevice(dataToDev: replyData)
+            }else{
+                if let replyData = replyData, let error = String(data: replyData, encoding: .utf8){
+                    return (SecuXRequestResult.SecuXRequestFailed, "\(error)");
+                }
+                return (SecuXRequestResult.SecuXRequestFailed, "Unknown error");
             }
         }
         
@@ -256,6 +261,11 @@ open class SecuXPaymentManager: SecuXPaymentManagerBase {
             let (svrRet, replyData) = self.secXSvrReqHandler.refill(devIDHash: devIDHash, ivKey: ivkey, dataHash: refundInfo)
             if svrRet == SecuXRequestResult.SecuXRequestOK, let replyData = replyData{
                 return sendRefundRefillInfoToDevice(dataToDev: replyData)
+            }else{
+                if let replyData = replyData, let error = String(data: replyData, encoding: .utf8){
+                    return (SecuXRequestResult.SecuXRequestFailed, "\(error)");
+                }
+                return (SecuXRequestResult.SecuXRequestFailed, "Unknown error");
             }
         }
         

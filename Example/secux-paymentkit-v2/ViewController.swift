@@ -210,7 +210,7 @@ class ViewController: UIViewController {
           
             let (reqRet, error, info) = paymentManager.getStoreInfo(devID: devIDHash)
             guard reqRet == SecuXRequestResult.SecuXRequestOK, let storeInfo = info else{
-                    print("Get store information from server failed!")
+                    print("Get store information from server failed! \(error)")
                     return
             }
             

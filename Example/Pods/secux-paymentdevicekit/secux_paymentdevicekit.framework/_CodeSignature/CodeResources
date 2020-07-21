@@ -14,7 +14,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		cuISwKT8LSFcmXNxXxp17gC44Qk=
+		j3V7biCLX/lHNBwN3dtkl3P7a70=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -34,7 +34,7 @@
 		</data>
 		<key>Modules/secux_paymentdevicekit.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		EuH8DLa8RbS7u87RBG+s9/FBcbo=
+		4oCQBIg5nj2jdJCkrn31LUeDbLU=
 		</data>
 		<key>Modules/secux_paymentdevicekit.swiftmodule/arm64.swiftdoc</key>
 		<data>
@@ -42,7 +42,7 @@
 		</data>
 		<key>Modules/secux_paymentdevicekit.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		EuH8DLa8RbS7u87RBG+s9/FBcbo=
+		4oCQBIg5nj2jdJCkrn31LUeDbLU=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -93,7 +93,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			roezAqZgwY7ad3yICH5jLhU2qftE9ut23/njCvIYZR4=
+			djhnbVZ951u+Wyfwe8Nb5/veqeHEN/1XSybPTAkny1E=
 			</data>
 		</dict>
 		<key>Modules/secux_paymentdevicekit.swiftmodule/arm64.swiftdoc</key>
@@ -107,7 +107,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			roezAqZgwY7ad3yICH5jLhU2qftE9ut23/njCvIYZR4=
+			djhnbVZ951u+Wyfwe8Nb5/veqeHEN/1XSybPTAkny1E=
 			</data>
 		</dict>
 	</dict>

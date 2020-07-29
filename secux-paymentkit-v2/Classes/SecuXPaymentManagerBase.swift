@@ -12,6 +12,27 @@ import secux_paymentdevicekit
 import CoreNFC
 
 
+extension String {
+
+
+    var hexData: Data? {
+        var data = Data(capacity: self.count / 2)
+
+        let regex = try! NSRegularExpression(pattern: "[0-9a-f]{1,2}", options: .caseInsensitive)
+        regex.enumerateMatches(in: self, range: NSRange(startIndex..., in: self)) { match, _, _ in
+            let byteString = (self as NSString).substring(with: match!.range)
+            let num = UInt8(byteString, radix: 16)!
+            data.append(num)
+        }
+
+        guard data.count > 0 else { return nil }
+
+        return data
+    }
+
+}
+
+
 open class SecuXPaymentManagerBase{
     
     let secXSvrReqHandler = SecuXServerRequestHandler()
@@ -185,25 +206,21 @@ open class SecuXPaymentManagerBase{
     }
     */
     
-    internal func doPayment(paymentInfo: PaymentInfo, devConfigInfo: PaymentDevConfigInfo) {
+    internal func doPayment(nonce:String, paymentInfo: PaymentInfo, devConfigInfo: PaymentDevConfigInfo) {
         
         logw("doPayment \(paymentInfo.amount) \(paymentInfo.deviceID) \(devConfigInfo.scanTimeout) \(devConfigInfo.connTimeout)")
         
         self.handlePaymentStatus(status: "Device connecting...")
         
-        /*
-        self.paymentPeripheralManager.doPeripheralAuthenticityVerification(Double(devConfigInfo.scanTimeout),
-                                                                           connectDeviceId: paymentInfo.deviceID,
-                                                                           checkRSSI: Int32(devConfigInfo.rssi),
-                                                                           connectionTimeout: Double(devConfigInfo.connTimeout)) { result, error in
         
-            //logw("AccountPaymentViewModel doPeripheralAuthenticityVerification done \(result ?? "")")
-            self.handleDeviceAuthenicationResult(paymentInfo: paymentInfo, ivKey: result, error: error)
+        //let (ret, ivkey) = paymentPeripheralManager.doGetIVKey(devID: paymentInfo.deviceID)
         
+        guard let nonceData = nonce.hexData else{
+            handlePaymentDone(ret: false, errorMsg: "Invalid payment nonce!")
+            return
         }
-        */
         
-        let (ret, ivkey) = paymentPeripheralManager.doGetIVKey(devID: paymentInfo.deviceID)
+        let (ret, ivkey) = paymentPeripheralManager.doGetIVKey(devID: paymentInfo.deviceID, payKey: [UInt8](nonceData))
         if ret == .OprationSuccess{
             paymentInfo.ivKey = ivkey
             sendInfoToDevice(paymentInfo: paymentInfo)
@@ -211,8 +228,6 @@ open class SecuXPaymentManagerBase{
             handlePaymentDone(ret: false, errorMsg: ivkey)
         }
         
-        
-    
     }
  
     

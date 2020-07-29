@@ -228,7 +228,7 @@ class ViewController: UIViewController {
                     self.showMessage(title: "Invalid payment information", message: "Payment abort!")
                     return
             }
-            self.paymentManager.doPaymentAsync(storeInfo: storeInfo.info, paymentInfo: paymentInfo)
+            self.paymentManager.doPaymentAsync(nonce: "1b2c3d4e", storeInfo: storeInfo.info, paymentInfo: paymentInfo)
             
     
         }else{
@@ -247,7 +247,7 @@ class ViewController: UIViewController {
             return
         }
         
-        let (refundRet, info) = self.paymentManager.doRefund(devID: "811c000009c5", devIDHash: "592e41d67ee326f82fd6be518fd488d752f5a1b9")
+        let (refundRet, info) = self.paymentManager.doRefund(nonce:"1b2a3c4d", devID: "811c000009c5", devIDHash: "592e41d67ee326f82fd6be518fd488d752f5a1b9")
         print("refund result \(refundRet), \(info)")
     }
     

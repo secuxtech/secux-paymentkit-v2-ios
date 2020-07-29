@@ -31,6 +31,7 @@ iOS Lib for SecuX Payment device P22 and P20
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '12.0'
+  #s.platform              = :ios, "12.0"
 
   s.source_files = 'secux-paymentkit-v2/Classes/**/*'
   
@@ -43,6 +44,7 @@ iOS Lib for SecuX Payment device P22 and P20
   # s.dependency 'AFNetworking', '~> 2.3'
   
   s.static_framework = true
-  s.dependency 'secux-paymentdevicekit', '~> 1.0.9'
+  #s.dependency 'secux-paymentdevicekit', '~> 1.0.9'
+  s.dependency 'secux-paymentdevicekit', '~> 1.1.0'
   
 end

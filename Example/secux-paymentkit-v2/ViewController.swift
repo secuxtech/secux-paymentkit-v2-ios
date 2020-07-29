@@ -21,7 +21,7 @@ class ViewController: UIViewController {
         
         let util = SecuXEncUtility()
         let encInfo = util.encryptInfoData(info: "{\"transactionId\" : \"805eefa0db020bf5\",\"memo\": \"test\"}", key: "JdVa0oOqQAr0ZMdtcTwHrQ==")
-        print("encInfo \(encInfo)")
+        print("encInfo \(String(describing: encInfo))")
         
         theUserAccount = SecuXUserAccount(email: "maochuntest1@secuxtech.com", phone: "0975123456", password: "12345678")
         self.accountManager.setBaseServer(url: "https://pmsweb-test.secux.io")

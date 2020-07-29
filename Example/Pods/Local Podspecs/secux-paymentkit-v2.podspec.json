@@ -1,6 +1,6 @@
 {
   "name": "secux-paymentkit-v2",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "summary": "iOS Lib for SecuX P22/P20",
   "swift_versions": "5.0",
   "description": "iOS Lib for SecuX Payment device P22 and P20",
@@ -14,7 +14,7 @@
   },
   "source": {
     "git": "https://github.com/secuxtech/secux-paymentkit-v2-ios",
-    "tag": "1.0.4"
+    "tag": "1.0.5"
   },
   "platforms": {
     "ios": "12.0"
@@ -23,7 +23,7 @@
   "static_framework": true,
   "dependencies": {
     "secux-paymentdevicekit": [
-      "~> 1.0.8"
+      "~> 1.1.0"
     ]
   },
   "swift_version": "5.0"

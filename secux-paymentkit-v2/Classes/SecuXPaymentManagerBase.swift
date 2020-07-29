@@ -229,6 +229,23 @@ open class SecuXPaymentManagerBase{
         }
         
     }
+    
+    internal func doPayment(paymentInfo: PaymentInfo, devConfigInfo: PaymentDevConfigInfo) {
+        
+        logw("doPayment \(paymentInfo.amount) \(paymentInfo.deviceID) \(devConfigInfo.scanTimeout) \(devConfigInfo.connTimeout)")
+        
+        self.handlePaymentStatus(status: "Device connecting...")
+        
+        
+        let (ret, ivkey) = paymentPeripheralManager.doGetIVKey(devID: paymentInfo.deviceID)
+        if ret == .OprationSuccess{
+            paymentInfo.ivKey = ivkey
+            sendInfoToDevice(paymentInfo: paymentInfo)
+        }else{
+            handlePaymentDone(ret: false, errorMsg: ivkey)
+        }
+        
+    }
  
     
     internal func handlePaymentDone(ret: Bool, errorMsg: String){

@@ -218,6 +218,25 @@ open class SecuXPaymentManager: SecuXPaymentManagerBase {
         
         return (ret, nil)
     }
+    
+    open func doPaymentAsync(storeInfo: String, paymentInfo: String){
+        
+        DispatchQueue.global(qos: .default).async {
+            
+            guard let payInfo = PaymentInfo.init(infoStr: paymentInfo) else{
+                self.handlePaymentDone(ret: false, errorMsg: "Invalid payment info.")
+                return
+            }
+            
+            guard let payDevConfigInfo = PaymentDevConfigInfo.init(storeInfo: storeInfo) else{
+                self.handlePaymentDone(ret: false, errorMsg: "Invalid store info.")
+                return
+            }
+            
+            
+            self.doPayment(paymentInfo: payInfo, devConfigInfo: payDevConfigInfo)
+        }
+    }
 
     open func doPaymentAsync(nonce:String, storeInfo: String, paymentInfo: String){
         
@@ -239,7 +258,11 @@ open class SecuXPaymentManager: SecuXPaymentManagerBase {
     }
     
     open func doRefund(nonce:String, devID:String, devIDHash:String)->(SecuXRequestResult, String){
-        let (ret, ivkey, refundInfo) = paymentPeripheralManager.getRefundInfo(devID: devID)
+        guard let nonceData = nonce.hexData, nonceData.count > 0 else{
+            return (SecuXRequestResult.SecuXRequestFailed, "Invalid nonce");
+        }
+        
+        let (ret, ivkey, refundInfo) = paymentPeripheralManager.getRefundInfo(devID: devID, payKey:[UInt8](nonceData))
         if ret == .OprationSuccess, let refundInfo = refundInfo{
             let (svrRet, replyData) = self.secXSvrReqHandler.refund(devIDHash: devIDHash, ivKey: ivkey, dataHash: refundInfo)
             if svrRet == SecuXRequestResult.SecuXRequestOK, let replyData = replyData{
@@ -256,7 +279,11 @@ open class SecuXPaymentManager: SecuXPaymentManagerBase {
     }
     
     open func doRefill(nonce:String, devID:String, devIDHash:String)->(SecuXRequestResult, String){
-        let (ret, ivkey, refundInfo) = paymentPeripheralManager.getRefundInfo(devID: devID)
+        guard let nonceData = nonce.hexData, nonceData.count > 0 else{
+            return (SecuXRequestResult.SecuXRequestFailed, "Invalid nonce");
+        }
+        
+        let (ret, ivkey, refundInfo) = paymentPeripheralManager.getRefundInfo(devID: devID, payKey:[UInt8](nonceData))
         if ret == .OprationSuccess, let refundInfo = refundInfo{
             let (svrRet, replyData) = self.secXSvrReqHandler.refill(devIDHash: devIDHash, ivKey: ivkey, dataHash: refundInfo)
             if svrRet == SecuXRequestResult.SecuXRequestOK, let replyData = replyData{
@@ -272,4 +299,38 @@ open class SecuXPaymentManager: SecuXPaymentManagerBase {
         return (SecuXRequestResult.SecuXRequestFailed, "Get refill infor. from device failed! Error: \(ivkey)");
     }
 
+    
+    open func doRefund(devID:String, devIDHash:String)->(SecuXRequestResult, String){
+        let (ret, ivkey, refundInfo) = paymentPeripheralManager.getRefundInfo(devID: devID)
+        if ret == .OprationSuccess, let refundInfo = refundInfo{
+            let (svrRet, replyData) = self.secXSvrReqHandler.refund(devIDHash: devIDHash, ivKey: ivkey, dataHash: refundInfo)
+            if svrRet == SecuXRequestResult.SecuXRequestOK, let replyData = replyData{
+                return sendRefundRefillInfoToDevice(dataToDev: replyData)
+            }else{
+                if let replyData = replyData, let error = String(data: replyData, encoding: .utf8){
+                    return (SecuXRequestResult.SecuXRequestFailed, "\(error)");
+                }
+                return (SecuXRequestResult.SecuXRequestFailed, "Unknown error");
+            }
+        }
+        
+        return (SecuXRequestResult.SecuXRequestFailed, "Get refund infor. from device failed! Error: \(ivkey)");
+    }
+    
+    open func doRefill(devID:String, devIDHash:String)->(SecuXRequestResult, String){
+        let (ret, ivkey, refundInfo) = paymentPeripheralManager.getRefundInfo(devID: devID)
+        if ret == .OprationSuccess, let refundInfo = refundInfo{
+            let (svrRet, replyData) = self.secXSvrReqHandler.refill(devIDHash: devIDHash, ivKey: ivkey, dataHash: refundInfo)
+            if svrRet == SecuXRequestResult.SecuXRequestOK, let replyData = replyData{
+                return sendRefundRefillInfoToDevice(dataToDev: replyData)
+            }else{
+                if let replyData = replyData, let error = String(data: replyData, encoding: .utf8){
+                    return (SecuXRequestResult.SecuXRequestFailed, "\(error)");
+                }
+                return (SecuXRequestResult.SecuXRequestFailed, "Unknown error");
+            }
+        }
+        
+        return (SecuXRequestResult.SecuXRequestFailed, "Get refill infor. from device failed! Error: \(ivkey)");
+    }
 }

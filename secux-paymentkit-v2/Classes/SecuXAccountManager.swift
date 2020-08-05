@@ -339,6 +339,8 @@ open class SecuXAccountManager{
                 return (SecuXRequestResult.SecuXRequestFailed, historyArr)
             }
             
+            //print("Data: \(String(data: data, encoding: .utf8))")
+            
             for json in responseJsonArr{
                 let history = SecuXTransferHistory(hisJson: json)
                 historyArr.append(history)

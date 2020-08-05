@@ -50,8 +50,14 @@ public class SecuXTransferHistory{
         self.address = hisJson["address"] as! String
         self.txType = hisJson["tx_type"] as! String
         self.token = hisJson["amount_symbol"] as! String
-        self.feeToken = hisJson["fee_symbol"] as! String
-        self.timestamp = hisJson["timestamp"] as! String
+        self.feeToken = ""
+        if let token = hisJson["fee_symbol"] as? String{
+            self.feeToken = token
+        }
+        self.timestamp = ""
+        if let time = hisJson["timestamp"] as? String{
+            self.timestamp = time
+        }
         
         if let url = hisJson["detailsUrl"] as? String{
             self.detailsUrl = url

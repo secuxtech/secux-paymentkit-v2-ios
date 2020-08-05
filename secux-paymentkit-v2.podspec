@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'secux-paymentkit-v2'
-  s.version          = '1.0.7'
+  s.version          = '1.0.8'
   s.summary          = 'iOS Lib for SecuX P22/P20'
   s.swift_version    = '5.0'
   
@@ -45,6 +45,6 @@ iOS Lib for SecuX Payment device P22 and P20
   
   s.static_framework = true
   #s.dependency 'secux-paymentdevicekit', '~> 1.0.9'
-  s.dependency 'secux-paymentdevicekit', '~> 1.1.0'
+  s.dependency 'secux-paymentdevicekit', '~> 2.0.1'
   
 end

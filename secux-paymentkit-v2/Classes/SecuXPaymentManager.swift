@@ -262,7 +262,7 @@ open class SecuXPaymentManager: SecuXPaymentManagerBase {
             return (SecuXRequestResult.SecuXRequestFailed, "Invalid nonce");
         }
         
-        let (ret, ivkey, refundInfo) = paymentPeripheralManager.getRefundInfo(devID: devID, payKey:[UInt8](nonceData))
+        let (ret, ivkey, refundInfo) = paymentPeripheralManager.getRefundInfo(devID: devID, nonce:[UInt8](nonceData))
         if ret == .OprationSuccess, let refundInfo = refundInfo{
             let (svrRet, replyData) = self.secXSvrReqHandler.refund(devIDHash: devIDHash, ivKey: ivkey, dataHash: refundInfo)
             if svrRet == SecuXRequestResult.SecuXRequestOK, let replyData = replyData{
@@ -283,7 +283,7 @@ open class SecuXPaymentManager: SecuXPaymentManagerBase {
             return (SecuXRequestResult.SecuXRequestFailed, "Invalid nonce");
         }
         
-        let (ret, ivkey, refundInfo) = paymentPeripheralManager.getRefundInfo(devID: devID, payKey:[UInt8](nonceData))
+        let (ret, ivkey, refundInfo) = paymentPeripheralManager.getRefundInfo(devID: devID, nonce:[UInt8](nonceData))
         if ret == .OprationSuccess, let refundInfo = refundInfo{
             let (svrRet, replyData) = self.secXSvrReqHandler.refill(devIDHash: devIDHash, ivKey: ivkey, dataHash: refundInfo)
             if svrRet == SecuXRequestResult.SecuXRequestOK, let replyData = replyData{

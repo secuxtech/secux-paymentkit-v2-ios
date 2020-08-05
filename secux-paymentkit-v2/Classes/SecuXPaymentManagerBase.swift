@@ -220,7 +220,7 @@ open class SecuXPaymentManagerBase{
             return
         }
         
-        let (ret, ivkey) = paymentPeripheralManager.doGetIVKey(devID: paymentInfo.deviceID, payKey: [UInt8](nonceData))
+        let (ret, ivkey) = paymentPeripheralManager.doGetIVKey(devID: paymentInfo.deviceID, nonce: [UInt8](nonceData))
         if ret == .OprationSuccess{
             paymentInfo.ivKey = ivkey
             sendInfoToDevice(paymentInfo: paymentInfo)

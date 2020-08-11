@@ -31,7 +31,8 @@ class ViewController: UIViewController {
             //self.doAccountActions()
             //self.doPaymentActions()
             
-            self.doRefundReillTest()
+            //self.doRefundReillTest()
+            self.doEncryptPaymentDataTest()
         }
     }
 
@@ -251,6 +252,20 @@ class ViewController: UIViewController {
         print("refund result \(refundRet), \(info)")
     }
     
+    func doEncryptPaymentDataTest(){
+        let (ret, data) = accountManager.loginUserAccount(userAccount: theUserAccount!)
+        guard ret == SecuXRequestResult.SecuXRequestOK else{
+            print("login failed!")
+            if let data = data{
+                print("Error: \(String(data: data, encoding: String.Encoding.utf8) ?? "")")
+            }
+            return
+        }
+        
+        let (encret, enctxt) = paymentManager.doActivity(userID: theUserAccount!.name, devID: "811c000009c5", coin: "$", token: "MQ03T",
+                                                                 transID: "test123456", amount: "1", nonce: "abcdef")
+        print("refund result \(encret), \(enctxt)")
+    }
     
     func showMessage(title: String, message: String){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)

@@ -1,7 +1,7 @@
 PODS:
-  - secux-paymentdevicekit (1.1.0)
-  - secux-paymentkit-v2 (1.0.5):
-    - secux-paymentdevicekit (~> 1.1.0)
+  - secux-paymentdevicekit (2.0.1)
+  - secux-paymentkit-v2 (1.0.7):
+    - secux-paymentdevicekit (~> 2.0.1)
 
 DEPENDENCIES:
   - secux-paymentkit-v2 (from `../`)
@@ -15,8 +15,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  secux-paymentdevicekit: 02947ad0cb4acc7754ec1cb7c848b437c025e2dd
-  secux-paymentkit-v2: f1427072660a7d0aa257758d4c1af5bbfa20297c
+  secux-paymentdevicekit: f39a8619e3e093f4d45b26cc22a208c6523ef8c3
+  secux-paymentkit-v2: 4cb393315e3fc330b7088e7893443c4200ebae21
 
 PODFILE CHECKSUM: fcc80ee7869f54ef81b321a0f18c3f7724e9c601
 

@@ -30,6 +30,7 @@ class SecuXServerRequestHandler: RestRequestHandler {
     static let accountOperationUrl = baseURL + "/api/Consumer/BindingChainAccount"
     static let refundUrl = baseURL + "/api/Consumer/Refund";
     static let refillUrl = baseURL + "/api/Consumer/Refill";
+    static let encryptPaymentDataUrl = baseURL + "/api/B2B/ProduceCipher";
     
     private static var theToken = ""
     
@@ -260,5 +261,22 @@ class SecuXServerRequestHandler: RestRequestHandler {
         
         let param = ["deviceIDhash": devIDHash, "ivKey": ivKey, "hashTx":dataHash] as [String : Any]
         return self.postRequestSync(urlstr: SecuXServerRequestHandler.refillUrl, param: param, token: SecuXServerRequestHandler.theToken)
+    }
+    
+    func encryptPaymentData(sender:String, devID:String, ivKey:String, coin:String, token:String, transID:String, amount:String) -> (SecuXRequestResult, Data?){
+        if SecuXServerRequestHandler.theToken.count == 0{
+            logw("no token")
+            return (SecuXRequestResult.SecuXRequestNoToken, nil)
+        }
+        
+        let param = ["ivKey": ivKey,
+                     "coinType": coin,
+                     "symbol":token,
+                     "sender":sender,
+                     "deviceId":devID,
+                     "transactionId":transID,
+                     "amount":amount] as [String : String]
+        
+        return self.postRequestSync(urlstr: SecuXServerRequestHandler.encryptPaymentDataUrl, param: param, token: SecuXServerRequestHandler.theToken)
     }
 }

@@ -333,4 +333,53 @@ open class SecuXPaymentManager: SecuXPaymentManagerBase {
         
         return (SecuXRequestResult.SecuXRequestFailed, "Get refill infor. from device failed! Error: \(ivkey)");
     }
+    
+    open func doActivity(userID:String, devID:String, coin:String, token:String, transID:String, amount:String, nonce:String) ->(SecuXRequestResult, String){
+        guard let nonceData = nonce.hexData, nonceData.count > 0 else{
+            return (SecuXRequestResult.SecuXRequestFailed, "Invalid nonce");
+        }
+        
+        let (ret, ivkey) = paymentPeripheralManager.doGetIVKey(devID: devID, nonce:[UInt8](nonceData))
+        if ret == .OprationSuccess{
+                                                                                                            
+            let (svrRet, reply) = self.secXSvrReqHandler.encryptPaymentData(sender: userID, devID: devID, ivKey: ivkey,
+                                                                            coin: coin, token: token, transID: transID, amount: amount)
+            if svrRet == SecuXRequestResult.SecuXRequestOK{
+                if let replyData = reply,
+                    let replyJson = try? JSONSerialization.jsonObject(with: replyData, options: []) as? [String:String]{
+                        
+                    guard let statusCode = replyJson["statusCode"],
+                        let statusDesc = replyJson["statusDesc"],
+                        let encryptedText = replyJson["encryptedText"] else{
+                            return (SecuXRequestResult.SecuXRequestFailed, "Invalid reply data from server \(replyJson.description)")
+                    }
+                    
+                    if statusCode == "200", statusDesc == "OK", encryptedText.count > 0, let encryptedData = Data(base64Encoded: encryptedText){
+                        
+                        let (verifyRet, errorMsg) = self.paymentPeripheralManager.doPaymentVerification(encPaymentData: encryptedData)
+                        if verifyRet == .OprationSuccess{
+                            return (SecuXRequestResult.SecuXRequestOK, "")
+                        }
+                        
+                        return (SecuXRequestResult.SecuXRequestFailed, errorMsg)
+                        
+                    }else{
+                        return (SecuXRequestResult.SecuXRequestFailed, "Invalid encrypt data statusCode=\(statusCode) statusDesc=\(statusDesc) encTxt=\(encryptedText)")
+                    }
+                    
+                }else{
+                    return (SecuXRequestResult.SecuXRequestFailed, "Invalid json response from server")
+                }
+            }else{
+                if let replyData = reply, let error = String(data: replyData, encoding: .utf8){
+                    return (SecuXRequestResult.SecuXRequestFailed, "\(error)");
+                }
+                return (SecuXRequestResult.SecuXRequestFailed, "Server error");
+            }
+                                                                                                            
+        }
+                                                                                            
+        return (SecuXRequestResult.SecuXRequestFailed, ivkey);
+                                                                                                                
+    }
 }

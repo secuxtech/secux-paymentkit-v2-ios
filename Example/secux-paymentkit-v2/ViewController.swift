@@ -264,7 +264,7 @@ class ViewController: UIViewController {
         
         let (encret, enctxt) = paymentManager.doActivity(userID: theUserAccount!.name, devID: "811c000009c5", coin: "$", token: "MQ03T",
                                                                  transID: "test123456", amount: "1", nonce: "abcdef")
-        print("refund result \(encret), \(enctxt)")
+        print("doEncryptPaymentDataTest result \(encret), \(enctxt)")
     }
     
     func showMessage(title: String, message: String){

@@ -88,6 +88,30 @@ class SecuXServerRequestHandler: RestRequestHandler {
         return (ret, data)
     }
     
+    func merchantLogin(account: String, password: String) -> (SecuXRequestResult, Data?){
+        logw("merchantLogin")
+        let param = ["account": account, "password":password]
+        let (ret, data) = self.postRequestSync(urlstr: SecuXServerRequestHandler.adminLoginUrl, param: param)
+        
+        guard ret == SecuXRequestResult.SecuXRequestOK, let replyData = data else{
+            
+            return (SecuXRequestResult.SecuXRequestNoToken, nil)
+        }
+        
+        guard let tmp = ((try? JSONSerialization.jsonObject(with: replyData, options: []) as? [String: Any]) as [String : Any]??),
+              let json = tmp else{
+            return (SecuXRequestResult.SecuXRequestFailed, "Invalid response json".data(using: String.Encoding.utf8))
+        }
+        
+        guard let token = json["token"] as? String else{
+            return (SecuXRequestResult.SecuXRequestFailed, "Response has no token".data(using: String.Encoding.utf8))
+        }
+        
+        
+        SecuXServerRequestHandler.theToken = token
+        return (ret, data)
+    }
+    
     func getSupportedCoinTokens()  -> (SecuXRequestResult, Data?){
         logw("getSupportedToken")
         
@@ -266,7 +290,7 @@ class SecuXServerRequestHandler: RestRequestHandler {
     func encryptPaymentData(sender:String, devID:String, ivKey:String, coin:String, token:String, transID:String, amount:String) -> (SecuXRequestResult, Data?){
         if SecuXServerRequestHandler.theToken.count == 0{
             logw("no token")
-            return (SecuXRequestResult.SecuXRequestNoToken, nil)
+            return (SecuXRequestResult.SecuXRequestNoToken, "no token".data(using: .utf8))
         }
         
         let param = ["ivKey": ivKey,

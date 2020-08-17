@@ -26,7 +26,7 @@ open class SecuXAccountManager{
         
         if ret == SecuXRequestResult.SecuXRequestOK, let data=data{
             
-            guard let _ = ((try? JSONSerialization.jsonObject(with: data, options: []) as? [String:Any]) as [String : Any]??) else{
+            guard let _ = try? JSONSerialization.jsonObject(with: data, options: []) as? [String:Any] else{
                 return (SecuXRequestResult.SecuXRequestFailed, "Invalid json response from server".data(using: String.Encoding.utf8))
             }
             
@@ -69,8 +69,7 @@ open class SecuXAccountManager{
         let (ret, data) = secuXSvrReqHandler.userLogin(account: userAccount.name, password: userAccount.password)
         if ret == SecuXRequestResult.SecuXRequestOK, let data = data{
            
-            guard let tmp = ((try? JSONSerialization.jsonObject(with: data, options: []) as? [String:Any]) as [String : Any]??),
-                let responseJson = tmp else{
+            guard let responseJson = try? JSONSerialization.jsonObject(with: data, options: []) as? [String:Any] else{
                 return (SecuXRequestResult.SecuXRequestFailed, "Invalid json response from server".data(using: String.Encoding.utf8))
             }
             
@@ -124,14 +123,28 @@ open class SecuXAccountManager{
         return (ret, data)
     }
     
+    public func loginMerchantAccount(accountName:String, password:String) -> (SecuXRequestResult, Data?){
+        logw("loginMerchantAccount")
+        let (ret, data) = secuXSvrReqHandler.merchantLogin(account: accountName, password: password)
+        if ret == SecuXRequestResult.SecuXRequestOK, let data = data{
+           
+            guard let _ = try? JSONSerialization.jsonObject(with: data, options: []) as? [String:Any] else{
+                return (SecuXRequestResult.SecuXRequestFailed, "Invalid json response from server".data(using: String.Encoding.utf8))
+            }
+            
+            return (ret, nil)
+        }
+        
+        return (ret, data)
+    }
+    
     public func getSupportedCoinTokenArray() -> (SecuXRequestResult, Data?, [(coin:String, token:String)]?){
         let (ret, data) = secuXSvrReqHandler.getSupportedCoinTokens()
         guard ret == SecuXRequestResult.SecuXRequestOK, let replyData = data else{
             return (ret, data, nil)
         }
             
-        guard let temp = ((try? JSONSerialization.jsonObject(with: replyData, options: []) as? [[String]]) as [[String]]??),
-              let responseArr = temp else{
+        guard let responseArr = try? JSONSerialization.jsonObject(with: replyData, options: []) as? [[String]] else{
             return (SecuXRequestResult.SecuXRequestFailed, "Invalid json response from server".data(using: String.Encoding.utf8), nil)
         }
         
@@ -163,8 +176,7 @@ open class SecuXAccountManager{
             return (ret, data)
         }
         
-        guard let tmp = ((try? JSONSerialization.jsonObject(with: replyData, options: []) as? [String:Any]) as [String : Any]??),
-            let responseJson = tmp else{
+        guard let responseJson = try? JSONSerialization.jsonObject(with: replyData, options: []) as? [String:Any] else{
             return (SecuXRequestResult.SecuXRequestFailed, "Invalid json response from server".data(using: String.Encoding.utf8))
         }
                 
@@ -253,8 +265,7 @@ open class SecuXAccountManager{
             
             if ret == SecuXRequestResult.SecuXRequestOK, let data = data{
                 
-                guard let tmp = ((try? JSONSerialization.jsonObject(with: data, options: []) as? [String:Any]) as [String : Any]??),
-                      let responseJson = tmp else{
+                guard let responseJson = try? JSONSerialization.jsonObject(with: data, options: []) as? [String:Any] else{
                     return (SecuXRequestResult.SecuXRequestFailed, "Invalid json response from server".data(using: String.Encoding.utf8))
                 }
                 
@@ -268,8 +279,7 @@ open class SecuXAccountManager{
             
             if ret == SecuXRequestResult.SecuXRequestOK, let data = data{
                 
-                guard let tmp = ((try? JSONSerialization.jsonObject(with: data, options: []) as? [[String:Any]]) as [[String : Any]]??),
-                      let responseJsonArr = tmp else{
+                guard let responseJsonArr = try? JSONSerialization.jsonObject(with: data, options: []) as? [[String:Any]] else{
                     return (SecuXRequestResult.SecuXRequestFailed, "Invalid json response from server".data(using: String.Encoding.utf8))
                 }
                 
@@ -297,8 +307,7 @@ open class SecuXAccountManager{
         logw("doTransfer")
         let (ret, data) = secuXSvrReqHandler.doTransfer(coinType: coinType, token: token, feesymbol: feeSymbol, receiver: receiver, amount: amount)
         if ret == SecuXRequestResult.SecuXRequestOK, let data = data{
-            guard let tmp = ((try? JSONSerialization.jsonObject(with: data, options: []) as? [String:Any]) as [String : Any]??),
-                  let responseJson = tmp else{
+            guard let responseJson = try? JSONSerialization.jsonObject(with: data, options: []) as? [String:Any] else{
                 return (SecuXRequestResult.SecuXRequestFailed, "Invalid json response from server".data(using: String.Encoding.utf8), nil)
             }
             
@@ -334,8 +343,7 @@ open class SecuXAccountManager{
         let (ret, data) = secuXSvrReqHandler.getTransferHistory(cointType: coinType, token: token, page: page, pageItemCount: count)
         if ret == SecuXRequestResult.SecuXRequestOK, let data = data{
             
-            guard let tmp = ((try? JSONSerialization.jsonObject(with: data, options: []) as? [[String:Any]]) as [[String : Any]]??),
-                  let responseJsonArr = tmp else{
+            guard let responseJsonArr = try? JSONSerialization.jsonObject(with: data, options: []) as? [[String:Any]] else{
                 return (SecuXRequestResult.SecuXRequestFailed, historyArr)
             }
             

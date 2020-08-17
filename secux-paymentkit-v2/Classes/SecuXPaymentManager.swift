@@ -339,6 +339,7 @@ open class SecuXPaymentManager: SecuXPaymentManagerBase {
             return (SecuXRequestResult.SecuXRequestFailed, "Invalid nonce");
         }
         
+        
         let (ret, ivkey) = paymentPeripheralManager.doGetIVKey(devID: devID, nonce:[UInt8](nonceData))
         if ret == .OprationSuccess{
                                                                                                             
@@ -346,15 +347,15 @@ open class SecuXPaymentManager: SecuXPaymentManagerBase {
                                                                             coin: coin, token: token, transID: transID, amount: amount)
             if svrRet == SecuXRequestResult.SecuXRequestOK{
                 if let replyData = reply,
-                    let replyJson = try? JSONSerialization.jsonObject(with: replyData, options: []) as? [String:String]{
+                    let replyJson = try? JSONSerialization.jsonObject(with: replyData, options: []) as? [String:Any]{
                         
-                    guard let statusCode = replyJson["statusCode"],
-                        let statusDesc = replyJson["statusDesc"],
-                        let encryptedText = replyJson["encryptedText"] else{
+                    guard let statusCode = replyJson["statusCode"] as? Int,
+                        let statusDesc = replyJson["statusDesc"] as? String,
+                        let encryptedText = replyJson["encryptedText"] as? String else{
                             return (SecuXRequestResult.SecuXRequestFailed, "Invalid reply data from server \(replyJson.description)")
                     }
                     
-                    if statusCode == "200", statusDesc == "OK", encryptedText.count > 0, let encryptedData = Data(base64Encoded: encryptedText){
+                    if statusCode == 200, statusDesc == "OK", encryptedText.count > 0, let encryptedData = Data(base64Encoded: encryptedText){
                         
                         let (verifyRet, errorMsg) = self.paymentPeripheralManager.doPaymentVerification(encPaymentData: encryptedData)
                         if verifyRet == .OprationSuccess{

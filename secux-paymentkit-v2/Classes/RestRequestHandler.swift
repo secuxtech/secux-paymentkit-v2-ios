@@ -15,6 +15,7 @@ public enum SecuXRequestResult : Int{
     case SecuXRequestInvalidParameter
     case SecuXRequestUnauthorized
     case SecuXRequestNoToken
+    case SecuXRequestForbiddenOperation
 }
 
 
@@ -27,7 +28,7 @@ open class RestRequestHandler {
           guard let url = URL(string: urlstr) else
           {
               print("postRequestSync invalid url")
-              return (SecuXRequestResult.SecuXRequestInvalidURL, nil)
+              return (SecuXRequestResult.SecuXRequestInvalidURL, "Invalid url \(urlstr)".data(using: .utf8))
           }
         
           var request : URLRequest = URLRequest(url: url)
@@ -40,7 +41,7 @@ open class RestRequestHandler {
           if let param = param{
               guard let httpBody = try? JSONSerialization.data(withJSONObject: param, options: []) else{
                   print("postRequestSync invalid httpBody")
-                return (SecuXRequestResult.SecuXRequestInvalidParameter, nil)
+                return (SecuXRequestResult.SecuXRequestInvalidParameter, "postRequestSync invalid httpBody".data(using: .utf8))
               }
               
               request.httpBody = httpBody
@@ -54,7 +55,7 @@ open class RestRequestHandler {
           guard let url = URL(string: urlstr) else
           {
               print("postRequestSync invalid url")
-              return (SecuXRequestResult.SecuXRequestInvalidURL, nil)
+              return (SecuXRequestResult.SecuXRequestInvalidURL, "Invalid url \(urlstr)".data(using: .utf8))
           }
         
           var request : URLRequest = URLRequest(url: url)
@@ -72,7 +73,7 @@ open class RestRequestHandler {
           if let param = param{
               guard let httpBody = try? JSONSerialization.data(withJSONObject: param, options: []) else{
                   print("postRequestSync invalid httpBody")
-                  return (SecuXRequestResult.SecuXRequestInvalidParameter, nil)
+                  return (SecuXRequestResult.SecuXRequestInvalidParameter, "postRequestSync invalid httpBody".data(using: .utf8))
               }
               
               request.httpBody = httpBody
@@ -86,7 +87,7 @@ open class RestRequestHandler {
           guard let url = URL(string: urlstr) else
           {
               print("postRequestSync invalid url")
-              return (SecuXRequestResult.SecuXRequestInvalidURL, nil)
+            return (SecuXRequestResult.SecuXRequestInvalidURL, "Invalid url \(urlstr)".data(using: .utf8))
           }
         
           var request : URLRequest = URLRequest(url: url)
@@ -103,7 +104,7 @@ open class RestRequestHandler {
           if let param = param{
               guard let httpBody = try? JSONSerialization.data(withJSONObject: param, options: []) else{
                   print("postRequestSync invalid httpBody")
-                  return (SecuXRequestResult.SecuXRequestInvalidParameter, nil)
+                  return (SecuXRequestResult.SecuXRequestInvalidParameter, "postRequestSync invalid httpBody".data(using: .utf8))
               }
               
               request.httpBody = httpBody
@@ -132,6 +133,11 @@ open class RestRequestHandler {
                 }else if response.statusCode == 401{
                     logw("Error: Unauthorized request")
                     taskRet = SecuXRequestResult.SecuXRequestUnauthorized
+                    
+                }else if response.statusCode == 403{
+                    logw("Error: Forbidden request")
+                    taskRet = SecuXRequestResult.SecuXRequestForbiddenOperation
+                    dataRet = "Forbidden operation".data(using: .utf8)
                     
                 }else{
                     logw("Error: \(error?.localizedDescription ?? "") url request response \(request) \(response.statusCode)")

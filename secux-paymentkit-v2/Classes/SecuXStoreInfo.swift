@@ -20,6 +20,82 @@ enum SecuXStoreInfoError: Error {
     case invalidCoinTokenInfo
 }
 
+
+public class SecuXPromotion{
+    /*
+     {
+         "type": "Promotion",
+         "code": "test",
+         "name": "q",
+         "icon": "",
+         "description": ""
+       }
+    */
+    
+    public var type = "";
+    public var code = "";
+    public var name = "";
+    public var desc = "";
+    public var imgData : Data?
+    
+    
+    init(promotionData: Data) throws{
+        if let promotionJson = try JSONSerialization.jsonObject(with: promotionData, options: []) as? [String: String]{
+            
+            if let proType = promotionJson["type"]{
+                self.type = proType
+            }
+            
+            if let proCode = promotionJson["code"]{
+                self.code = proCode
+            }
+            
+            if let proName = promotionJson["name"]{
+                self.name = proName
+            }
+            
+            if let proDesc = promotionJson["description"]{
+                self.desc = proDesc
+            }
+            
+            if let imgStr = promotionJson["icon"], imgStr.count > 0,
+                let data = Data(base64Encoded: imgStr, options: .ignoreUnknownCharacters){
+                
+                self.imgData = data
+                
+            }
+                
+        }
+    }
+    
+    init(promotionJson: [String:String]){
+            
+        if let proType = promotionJson["type"]{
+            self.type = proType
+        }
+        
+        if let proCode = promotionJson["code"]{
+            self.code = proCode
+        }
+        
+        if let proName = promotionJson["name"]{
+            self.name = proName
+        }
+        
+        if let proDesc = promotionJson["description"]{
+            self.desc = proDesc
+        }
+        
+        if let imgStr = promotionJson["icon"], imgStr.count > 0,
+            let data = Data(base64Encoded: imgStr, options: .ignoreUnknownCharacters){
+            
+            self.imgData = data
+            
+        }
+                
+    }
+}
+
 public class SecuXStoreInfo {
     
     public var code = ""
@@ -27,10 +103,12 @@ public class SecuXStoreInfo {
     public var devID = ""
     public var logo : UIImage?
     public var coinTokenArray = [(coin:String, token:String)]()
+    public var PromotionArray = [SecuXPromotion]()
     public var info = ""
     
     init(storeData:Data) throws{
     
+        //let tt = String(data: storeData, encoding: .utf8)
         
         if let storeJson = try JSONSerialization.jsonObject(with: storeData, options: []) as? [String: Any]{
             
@@ -80,6 +158,15 @@ public class SecuXStoreInfo {
             }else{
                 throw SecuXStoreInfoError.noCoinToken
             }
+            
+            if let promotionInfoArray = storeJson["supportedPromotion"] as? [[String:String]]{
+                for item in promotionInfoArray{
+                   
+                    let promotion = SecuXPromotion.init(promotionJson: item)
+                    self.PromotionArray.append(promotion)
+                    
+                }
+            }
         
         }else{
             throw SecuXStoreInfoError.invalidStoreInfo
@@ -87,6 +174,17 @@ public class SecuXStoreInfo {
             
         
       
+    }
+    
+    public func getPromotionDetails(code:String) -> SecuXPromotion?{
+        
+        for item in self.PromotionArray{
+            if item.code == code{
+                return item
+            }
+        }
+        
+        return nil
     }
     
 }

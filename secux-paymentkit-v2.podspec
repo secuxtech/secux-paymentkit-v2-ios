@@ -45,6 +45,6 @@ iOS Lib for SecuX Payment device P22 and P20
   
   s.static_framework = true
   #s.dependency 'secux-paymentdevicekit', '~> 1.0.9'
-  s.dependency 'secux-paymentdevicekit', '~> 2.0.3'
+  s.dependency 'secux-paymentdevicekit', '~> 2.0.4'
   
 end

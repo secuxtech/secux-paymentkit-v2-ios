@@ -14,7 +14,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		j3V7biCLX/lHNBwN3dtkl3P7a70=
+		uh18TsgbIhjYxB+bR/aOq6I5JWE=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -22,27 +22,35 @@
 		</data>
 		<key>Modules/secux_paymentdevicekit.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo</key>
 		<data>
-		jtCTvS9drC2snfX5QgKiXDPiE6g=
+		KLAtmBdkk9v5/WvsqJj5+UUmRR4=
 		</data>
 		<key>Modules/secux_paymentdevicekit.swiftmodule/Project/arm64.swiftsourceinfo</key>
 		<data>
-		jtCTvS9drC2snfX5QgKiXDPiE6g=
+		KLAtmBdkk9v5/WvsqJj5+UUmRR4=
 		</data>
 		<key>Modules/secux_paymentdevicekit.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<data>
-		UlTZMHHggA9jX6JN23IVFicwOoY=
+		yWTlxmOxVLMDO+lWH1OKwIRBqvQ=
+		</data>
+		<key>Modules/secux_paymentdevicekit.swiftmodule/arm64-apple-ios.swiftinterface</key>
+		<data>
+		OwjI1vRCOnVFcn2BJJcWMf6xHiw=
 		</data>
 		<key>Modules/secux_paymentdevicekit.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		4NFznRownV9LJ8463NVjm3n6DZE=
+		F/mGnGADcLZwEce43HEFZ1ef2k8=
 		</data>
 		<key>Modules/secux_paymentdevicekit.swiftmodule/arm64.swiftdoc</key>
 		<data>
-		UlTZMHHggA9jX6JN23IVFicwOoY=
+		yWTlxmOxVLMDO+lWH1OKwIRBqvQ=
+		</data>
+		<key>Modules/secux_paymentdevicekit.swiftmodule/arm64.swiftinterface</key>
+		<data>
+		OwjI1vRCOnVFcn2BJJcWMf6xHiw=
 		</data>
 		<key>Modules/secux_paymentdevicekit.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		4NFznRownV9LJ8463NVjm3n6DZE=
+		F/mGnGADcLZwEce43HEFZ1ef2k8=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -72,42 +80,56 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			kiL0ba2puei591jd+HRty+LfvLwQUXY27N/U6dj6/Is=
+			UlV45AZUDK7uT7nCZKLkb+M0eMdnW6InC4f0+bFg/us=
 			</data>
 		</dict>
 		<key>Modules/secux_paymentdevicekit.swiftmodule/Project/arm64.swiftsourceinfo</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			kiL0ba2puei591jd+HRty+LfvLwQUXY27N/U6dj6/Is=
+			UlV45AZUDK7uT7nCZKLkb+M0eMdnW6InC4f0+bFg/us=
 			</data>
 		</dict>
 		<key>Modules/secux_paymentdevicekit.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			yJSRElFIU9Pzeyn7z/QgmJqV74djXeXCK8MN1XOA8Ng=
+			yna/BBI0SYZLsAcb0/loKcT0eSm0xNtDayH6MYLCGYY=
+			</data>
+		</dict>
+		<key>Modules/secux_paymentdevicekit.swiftmodule/arm64-apple-ios.swiftinterface</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			FDopCmYZ3OVG//OYFw0b4qvAwX83axhtbR+U01F5ET8=
 			</data>
 		</dict>
 		<key>Modules/secux_paymentdevicekit.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Lk7e5gCLB8suVPF61xvd3x1DhwFacjIi/2jL3iWC7DE=
+			gCPFFgMzhGovcRHfxUdhsOZKgUE08yt9QASHAggdDPE=
 			</data>
 		</dict>
 		<key>Modules/secux_paymentdevicekit.swiftmodule/arm64.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			yJSRElFIU9Pzeyn7z/QgmJqV74djXeXCK8MN1XOA8Ng=
+			yna/BBI0SYZLsAcb0/loKcT0eSm0xNtDayH6MYLCGYY=
+			</data>
+		</dict>
+		<key>Modules/secux_paymentdevicekit.swiftmodule/arm64.swiftinterface</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			FDopCmYZ3OVG//OYFw0b4qvAwX83axhtbR+U01F5ET8=
 			</data>
 		</dict>
 		<key>Modules/secux_paymentdevicekit.swiftmodule/arm64.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Lk7e5gCLB8suVPF61xvd3x1DhwFacjIi/2jL3iWC7DE=
+			gCPFFgMzhGovcRHfxUdhsOZKgUE08yt9QASHAggdDPE=
 			</data>
 		</dict>
 	</dict>

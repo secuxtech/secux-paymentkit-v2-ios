@@ -1,0 +1,251 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.2.4 (swiftlang-1103.0.32.9 clang-1103.0.32.53)
+// swift-module-flags: -target arm64-apple-ios11.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name secux_paymentdevicekit
+import CommonCrypto
+import CoreBluetooth
+import Foundation
+import Swift
+@_exported import secux_paymentdevicekit
+public enum SecuX_Command_Type : Swift.String {
+  case Invalid
+  case Type_0
+  case Type_1
+  case Type_2
+  case Type_4
+  case Type_D
+  case Type_T
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum SecuX_Command_ReplyType : Swift.UInt8 {
+  case Result
+  case Block
+  case Text
+  public typealias RawValue = Swift.UInt8
+  public init?(rawValue: Swift.UInt8)
+  public var rawValue: Swift.UInt8 {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers open class LogHandler {
+  open var currentPath: Swift.String
+  open var printToConsole: Swift.Bool
+  open class var logger: secux_paymentdevicekit.LogHandler {
+    get
+  }
+  open func write(_ text: Swift.String)
+  @objc deinit
+}
+public func logw(_ text: Swift.String)
+@objc @_hasMissingDesignatedInitializers open class SecuXBLEDev : ObjectiveC.NSObject {
+  public var peripheral: CoreBluetooth.CBPeripheral
+  public var RSSI: Swift.Int
+  public var advDict: [Swift.String : Any]
+  public var paymentPeripheral: secux_paymentdevicekit.SecuXPaymentPeripheralCodec?
+  public func name() -> Swift.String
+  @objc override dynamic open func isEqual(_ object: Any?) -> Swift.Bool
+  @objc deinit
+  @objc override dynamic public init()
+}
+public enum ConnDevStatus : Swift.Int {
+  case BLEOff
+  case ConnFailed
+  case FindServiceFailed
+  case FindCharacteristicsFailed
+  case ConnDone
+  case UnsupportedDev
+  case Disconnected
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public protocol BLEDevControllerDelegate : ObjectiveC.NSObjectProtocol {
+  @objc func enableBLESetting()
+  @objc func updateConnDevStatus(status: Swift.Int)
+  @objc optional func newBLEDevice(newDev: secux_paymentdevicekit.SecuXBLEDev)
+  @objc optional func updateBLEDevice(dev: secux_paymentdevicekit.SecuXBLEDev)
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers open class BLEManager : ObjectiveC.NSObject {
+  public var delegate: secux_paymentdevicekit.BLEDevControllerDelegate?
+  public static var enableLog: Swift.Bool
+  public var isStatePoweredOn: Swift.Bool {
+    get
+  }
+  public func numOfScanDev() -> Swift.Int
+  public func getBLEDev(index: Swift.Int) -> secux_paymentdevicekit.SecuXBLEDev?
+  public func getBLEDev() -> [secux_paymentdevicekit.SecuXBLEDev]
+  public func scanForPeripherals(_ enable: Swift.Bool, serviceUUIDs: [CoreBluetooth.CBUUID]? = nil)
+  public func isConnectWithDevice() -> Swift.Bool
+  public func connectedDeviceName() -> Swift.String?
+  public func connectDevice(dev: secux_paymentdevicekit.SecuXBLEDev)
+  public func disconnectDevice()
+  public func sendDataSync(byte byteArr: [Swift.UInt8], timeoutInSecond: Swift.Double = 0.5) -> Swift.Bool
+  public func sendDataSync(text aText: Swift.String, timeoutInSecond: Swift.Double = 0.5) -> Swift.Bool
+  public func sendDataSync(data theData: Foundation.Data, timeoutInSecond: Swift.Double = 0.5) -> Swift.Bool
+  public func sendDataRecvReply(data theData: Foundation.Data, sendTimeoutInSecond: Swift.Double = 0.5, recvTimeoutInSecond: Swift.Double = 0.5) -> (ret: Swift.Bool, reply: Foundation.Data?)
+  public func sendPacketRecvReply(data theData: Foundation.Data, sendTimeoutInSecond: Swift.Double = 0.5, recvTimeoutInSecond: Swift.Double = 0.5) -> (ret: Swift.Bool, reply: Foundation.Data?)
+  @objc deinit
+}
+public enum SecuXPaymentPeripheralManagerError : Swift.Int {
+  case OprationSuccess
+  case ScanDevFailed
+  case ConnDevFailed
+  case NoIdentifyCmd
+  case InvalidReply
+  case SendCmdFailed
+  case InactivatedDevice
+  case devAlreadyActivated
+  case SetTimeoutFailed
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc open class SecuXPaymentPeripheralManager : ObjectiveC.NSObject {
+  public init(scanTimeout: Swift.Int, connTimeout: Swift.Int, checkRSSI: Swift.Int)
+  public func requestDisconnect()
+  public func getRefundInfo(devID: Swift.String) -> (secux_paymentdevicekit.SecuXPaymentPeripheralManagerError, Swift.String, Swift.String?)
+  public func getRefundInfo(devID: Swift.String, nonce: [Swift.UInt8]) -> (secux_paymentdevicekit.SecuXPaymentPeripheralManagerError, Swift.String, Swift.String?)
+  public func doGetIVKey(devID: Swift.String) -> (secux_paymentdevicekit.SecuXPaymentPeripheralManagerError, Swift.String)
+  public func doGetIVKey(devID: Swift.String, nonce: [Swift.UInt8]) -> (secux_paymentdevicekit.SecuXPaymentPeripheralManagerError, Swift.String)
+  public func isOldFWVersion() -> Swift.Bool
+  public func doPaymentVerification(encPaymentData: Foundation.Data) -> (secux_paymentdevicekit.SecuXPaymentPeripheralManagerError, Swift.String)
+  public func doPaymentVerification(encPaymentData: Foundation.Data, machineControlParams: [Swift.String : Any]) -> (secux_paymentdevicekit.SecuXPaymentPeripheralManagerError, Swift.String)
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers open class SecuXBLEManager : secux_paymentdevicekit.BLEManager {
+  public static let shared: secux_paymentdevicekit.SecuXBLEManager
+  public func scanForTheDevice(devID: Swift.String, scanTimeout: Swift.Int, connTimeout: Swift.Int, rssi: Swift.Int) -> secux_paymentdevicekit.SecuXBLEDev?
+  public func connectWithDevice(dev: secux_paymentdevicekit.SecuXBLEDev, connTimeout: Swift.Int) -> Swift.Bool
+  public func scanDevice(enable: Swift.Bool)
+  @objc deinit
+}
+extension SecuXBLEManager : CoreBluetooth.CBCentralManagerDelegate {
+  @objc dynamic public func centralManagerDidUpdateState(_ central: CoreBluetooth.CBCentralManager)
+  @objc dynamic public func centralManager(_ central: CoreBluetooth.CBCentralManager, didDiscover peripheral: CoreBluetooth.CBPeripheral, advertisementData: [Swift.String : Any], rssi RSSI: Foundation.NSNumber)
+  @objc dynamic public func centralManager(_ central: CoreBluetooth.CBCentralManager, didConnect peripheral: CoreBluetooth.CBPeripheral)
+  @objc dynamic public func centralManager(_ central: CoreBluetooth.CBCentralManager, didFailToConnect peripheral: CoreBluetooth.CBPeripheral, error: Swift.Error?)
+  @objc dynamic public func centralManager(_ central: CoreBluetooth.CBCentralManager, didDisconnectPeripheral peripheral: CoreBluetooth.CBPeripheral, error: Swift.Error?)
+}
+@_hasMissingDesignatedInitializers public class SecuXUtility {
+  public static func getEncryptMobilePaymentCommand(terminalId: Swift.String, amount: Swift.String, ivKey: Swift.String, cryptKey: Swift.String, currency: Swift.String) -> Foundation.Data?
+  @objc deinit
+}
+@objc open class SecuXPaymentPeripheralCodec : ObjectiveC.NSObject {
+  public var macAddress: [Swift.UInt8]
+  public var devHwID: [Swift.UInt8]
+  public var codingKey: [Swift.UInt8]
+  public var workMode: [Swift.UInt8]
+  public var workValue: [Swift.UInt8]
+  public var fwVersion: Swift.String
+  public var uniqueID: Swift.String
+  public var isActivated: Swift.Bool
+  public var isGpioInputOneOn: Swift.Bool
+  public var isGpioInputTwoOn: Swift.Bool
+  public var isGpioOneRunning: Swift.Bool
+  public var isGpioTwoRunning: Swift.Bool
+  public var isGpioThreeRunning: Swift.Bool
+  public var isGpioOneLocking: Swift.Bool
+  public var isGpioTwoLocking: Swift.Bool
+  public var partnerId: Swift.Int
+  public var replyVerificationCode: [Swift.UInt8]
+  public var identifyCmdReply: [Swift.UInt8]
+  public var validAdvData: [Swift.UInt8]
+  public var isOldVersion: Swift.Bool
+  public init(advData: [Swift.UInt8])
+  public func genIdentifyReplyCmd() -> ([Swift.UInt8], [Swift.UInt8])
+  public func genIdentifyReplyCmdV1(connTimeout: Swift.UInt8) -> ([Swift.UInt8], [Swift.UInt8])
+  @objc override dynamic public init()
+  @objc deinit
+}
+public protocol RNCryptorType {
+  init(password: Swift.String)
+  func update(withData data: Foundation.Data) throws -> Foundation.Data
+  func finalData() throws -> Foundation.Data
+}
+public enum RNCryptor {
+  public enum Error : Swift.Int, Swift.Error {
+    case hmacMismatch
+    case unknownHeader
+    case messageTooShort
+    case memoryFailure
+    case invalidCredentialType
+    public typealias RawValue = Swift.Int
+    public init?(rawValue: Swift.Int)
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  public static func encrypt(data: Foundation.Data, withPassword password: Swift.String) -> Foundation.Data
+  public static func decrypt(data: Foundation.Data, withPassword password: Swift.String) throws -> Foundation.Data
+  public static func randomData(ofLength length: Swift.Int) -> Foundation.Data
+  final public class Encryptor : secux_paymentdevicekit.RNCryptorType {
+    public init(password: Swift.String)
+    final public func update(withData data: Foundation.Data) -> Foundation.Data
+    final public func finalData() -> Foundation.Data
+    final public func encrypt(data: Foundation.Data) -> Foundation.Data
+    @objc deinit
+  }
+  final public class Decryptor : secux_paymentdevicekit.RNCryptorType {
+    public init(password: Swift.String)
+    final public func decrypt(data: Foundation.Data) throws -> Foundation.Data
+    final public func update(withData data: Foundation.Data) throws -> Foundation.Data
+    final public func finalData() throws -> Foundation.Data
+    @objc deinit
+  }
+}
+extension RNCryptor {
+  @_hasMissingDesignatedInitializers final public class FormatV3 {
+    public static let keySize: Swift.Int
+    public static let saltSize: Swift.Int
+    public static func makeKey(forPassword password: Swift.String, withSalt salt: Foundation.Data) -> Foundation.Data
+    @objc deinit
+  }
+  @_hasMissingDesignatedInitializers final public class EncryptorV3 : secux_paymentdevicekit.RNCryptorType {
+    convenience public init(password: Swift.String)
+    convenience public init(encryptionKey: Foundation.Data, hmacKey: Foundation.Data)
+    final public func encrypt(data: Foundation.Data) -> Foundation.Data
+    final public func update(withData data: Foundation.Data) -> Foundation.Data
+    final public func finalData() -> Foundation.Data
+    @objc deinit
+  }
+  final public class DecryptorV3 {
+    public init(password: Swift.String)
+    public init(encryptionKey: Foundation.Data, hmacKey: Foundation.Data)
+    final public func decrypt(data: Foundation.Data) throws -> Foundation.Data
+    final public func update(withData data: Foundation.Data) throws -> Foundation.Data
+    final public func finalData() throws -> Foundation.Data
+    @objc deinit
+  }
+}
+@objc @_inheritsConvenienceInitializers open class SecuXPaymentPacketHandler : ObjectiveC.NSObject {
+  public static func generateCommandPacket(cmd: Foundation.Data) -> Foundation.Data
+  public static func getPacketCommandData(packetData: Foundation.Data) -> Foundation.Data
+  public static func isLastPacket(packetData: Foundation.Data) -> Swift.Bool
+  public static func testCmdPacket() -> Swift.Bool
+  @objc deinit
+  @objc override dynamic public init()
+}
+extension secux_paymentdevicekit.SecuX_Command_Type : Swift.Equatable {}
+extension secux_paymentdevicekit.SecuX_Command_Type : Swift.Hashable {}
+extension secux_paymentdevicekit.SecuX_Command_Type : Swift.RawRepresentable {}
+extension secux_paymentdevicekit.SecuX_Command_ReplyType : Swift.Equatable {}
+extension secux_paymentdevicekit.SecuX_Command_ReplyType : Swift.Hashable {}
+extension secux_paymentdevicekit.SecuX_Command_ReplyType : Swift.RawRepresentable {}
+extension secux_paymentdevicekit.ConnDevStatus : Swift.Equatable {}
+extension secux_paymentdevicekit.ConnDevStatus : Swift.Hashable {}
+extension secux_paymentdevicekit.ConnDevStatus : Swift.RawRepresentable {}
+extension secux_paymentdevicekit.SecuXPaymentPeripheralManagerError : Swift.Equatable {}
+extension secux_paymentdevicekit.SecuXPaymentPeripheralManagerError : Swift.Hashable {}
+extension secux_paymentdevicekit.SecuXPaymentPeripheralManagerError : Swift.RawRepresentable {}
+extension secux_paymentdevicekit.RNCryptor.Error : Swift.Equatable {}
+extension secux_paymentdevicekit.RNCryptor.Error : Swift.Hashable {}
+extension secux_paymentdevicekit.RNCryptor.Error : Swift.RawRepresentable {}
+extension secux_paymentdevicekit.RNCryptor.DecryptorV3 : secux_paymentdevicekit.RNCryptorType {}

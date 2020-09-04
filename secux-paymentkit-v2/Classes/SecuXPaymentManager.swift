@@ -8,8 +8,6 @@
 
 import Foundation
 import CoreNFC
-//import SPManager
-
 
 
 class PaymentInfo {
@@ -89,6 +87,9 @@ public protocol SecuXPaymentManagerDelegate{
 }
 
 open class SecuXPaymentManager: SecuXPaymentManagerBase {
+    
+    #if arch(i386) || arch(x86_64)
+    #else
     
     public override init() {
         super.init()
@@ -258,10 +259,12 @@ open class SecuXPaymentManager: SecuXPaymentManagerBase {
     }
     
     open func doRefund(nonce:String, devID:String, devIDHash:String)->(SecuXRequestResult, String){
+        
         guard let nonceData = nonce.hexData, nonceData.count > 0 else{
             return (SecuXRequestResult.SecuXRequestFailed, "Invalid nonce");
         }
         
+
         let (ret, ivkey, refundInfo) = paymentPeripheralManager.getRefundInfo(devID: devID, nonce:[UInt8](nonceData))
         if ret == .OprationSuccess, let refundInfo = refundInfo{
             let (svrRet, replyData) = self.secXSvrReqHandler.refund(devIDHash: devIDHash, ivKey: ivkey, dataHash: refundInfo)
@@ -276,6 +279,7 @@ open class SecuXPaymentManager: SecuXPaymentManagerBase {
         }
         
         return (SecuXRequestResult.SecuXRequestFailed, "Get refund infor. from device failed! Error: \(ivkey)");
+   
     }
     
     open func doRefill(nonce:String, devID:String, devIDHash:String)->(SecuXRequestResult, String){
@@ -383,4 +387,6 @@ open class SecuXPaymentManager: SecuXPaymentManagerBase {
         return (SecuXRequestResult.SecuXRequestFailed, ivkey);
                                                                                                                 
     }
+    
+    #endif
 }

@@ -11,6 +11,9 @@ import secux_paymentkit_v2
 
 class ViewController: UIViewController {
     
+    #if arch(i386) || arch(x86_64)
+    #else
+    
     private let accountManager = SecuXAccountManager()
     private let paymentManager = SecuXPaymentManager()
     private var theUserAccount : SecuXUserAccount?
@@ -274,8 +277,13 @@ class ViewController: UIViewController {
         alert.addAction(okAction)
         self.present(alert, animated: true, completion: nil)
     }
+    
+    #endif
 }
 
+
+#if arch(i386) || arch(x86_64)
+#else
 //MARK: SecuXPaymentManagerDelegate implementation
 extension ViewController: SecuXPaymentManagerDelegate{
     
@@ -302,3 +310,5 @@ extension ViewController: SecuXPaymentManagerDelegate{
     }
     
 }
+
+#endif

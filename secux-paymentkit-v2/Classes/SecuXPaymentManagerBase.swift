@@ -10,7 +10,16 @@ import Foundation
 
 import CoreNFC
 
-import secux_paymentdevicekit
+
+#if arch(i386) || arch(x86_64)
+
+     //simulator
+#else
+     import secux_paymentdevicekit
+
+#endif
+
+
 
 
 
@@ -37,9 +46,12 @@ extension String {
 
 open class SecuXPaymentManagerBase{
     
+    #if arch(i386) || arch(x86_64)
+    #else
     let secXSvrReqHandler = SecuXServerRequestHandler()
     let paymentPeripheralManager = SecuXPaymentPeripheralManager.init(scanTimeout: 5, connTimeout: 30, checkRSSI: -80)
-    
+         
+
     open var delegate: SecuXPaymentManagerDelegate?
 
     
@@ -265,5 +277,7 @@ open class SecuXPaymentManagerBase{
             self.delegate?.updatePaymentStatus(status: status)
         }
     }
+    
+    #endif
    
 }

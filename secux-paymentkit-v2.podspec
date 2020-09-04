@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'secux-paymentkit-v2'
-  s.version          = '2.0.5'
+  s.version          = '2.0.6'
   s.summary          = 'iOS Lib for SecuX P22/P20'
   s.swift_version    = '5.0'
   
@@ -43,9 +43,6 @@ iOS Lib for SecuX Payment device P22 and P20
   # s.frameworks = 'UIKit', 'MapKit'
   # s.dependency 'AFNetworking', '~> 2.3'
   
-  s.xcconfig = {
-  'VALID_ARCHS' =>  'arm64 arm64e armv7 armv7s',
-  }
   
   s.static_framework = true
   s.dependency 'secux-paymentdevicekit'

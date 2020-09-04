@@ -7,9 +7,11 @@
 //
 
 import Foundation
-//import SPManager
-import secux_paymentdevicekit
+
 import CoreNFC
+
+import secux_paymentdevicekit
+
 
 
 extension String {
@@ -263,6 +265,5 @@ open class SecuXPaymentManagerBase{
             self.delegate?.updatePaymentStatus(status: status)
         }
     }
-    
-
+   
 }

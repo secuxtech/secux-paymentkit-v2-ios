@@ -30,7 +30,7 @@ iOS Lib for SecuX Payment device P22 and P20
   s.source           = { :git => 'https://github.com/secuxtech/secux-paymentkit-v2-ios', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '11.0'
+  s.ios.deployment_target = '12.0'
   #s.platform              = :ios, "12.0"
 
   s.source_files = 'secux-paymentkit-v2/Classes/**/*'
@@ -42,8 +42,9 @@ iOS Lib for SecuX Payment device P22 and P20
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   # s.dependency 'AFNetworking', '~> 2.3'
-
+  
   s.static_framework = true
+  #s.dependency 'secux-paymentdevicekit', '~> 1.0.9'
   s.dependency 'secux-paymentdevicekit', '~> 2.0.3'
   
 end

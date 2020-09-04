@@ -42,8 +42,7 @@ iOS Lib for SecuX Payment device P22 and P20
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   # s.dependency 'AFNetworking', '~> 2.3'
-  
-  s.user_target_xcconfig = { ‘ENABLE_BITCODE’ => ‘YES’ }
+
   s.static_framework = true
   s.dependency 'secux-paymentdevicekit', '2.0.3'
   

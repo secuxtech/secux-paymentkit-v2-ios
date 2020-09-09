@@ -85,10 +85,12 @@ public class SecuXPaymentHistory{
             let amount = hisJson["amount"] as? Double,
             let transactionStatus = hisJson["transactionStatus"] as? String,
             let transactionTime = hisJson["transactionTime"] as? String,
-            let remark = hisJson["remark"] as? String,
-            let detailsUrl = hisJson["detailsUrl"] as? String else{
+            let remark = hisJson["remark"] as? String else {
+            //let detailsUrl = hisJson["detailsUrl"] as? String else{
                 return nil
         }
+        
+        let detailsUrl = hisJson["detailsUrl"] as? String
         
         self.theID = id
         self.storeID = storeID
@@ -106,7 +108,7 @@ public class SecuXPaymentHistory{
         self.transactionStatus = transactionStatus
         self.transactionTime = transactionTime
         self.remark = remark
-        self.detailsUrl = detailsUrl
+        self.detailsUrl = detailsUrl ?? ""
         
     }
     

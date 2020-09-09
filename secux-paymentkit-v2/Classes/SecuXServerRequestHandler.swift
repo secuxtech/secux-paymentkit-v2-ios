@@ -13,26 +13,48 @@ class SecuXServerRequestHandler: RestRequestHandler {
     
 
     static var baseURL = "https://pmsweb-test.secux.io"  //"https://pmsweb-sandbox.secuxtech.com" //"https://pmsweb-test.secux.io"
-    static let adminLoginUrl = baseURL + "/api/Admin/Login"
-    static let registerUrl = baseURL + "/api/Consumer/Register"
-    static let userLoginUrl = baseURL + "/api/Consumer/Login"
-    static let changePwdUrl = baseURL + "/api/Consumer/ChangePassword"
-    static let transferUrl = baseURL + "/api/Consumer/Transfer"
-    static let balanceUrl = baseURL + "/api/Consumer/GetAccountBalance"
-    static let balanceListUrl = baseURL + "/api/Consumer/GetAccountBalanceList"
-    static let paymentUrl = baseURL + "/api/Consumer/Payment"
-    static let paymentHistoryUrl = baseURL + "/api/Consumer/GetPaymentHistory"
-    static let getStoreUrl = baseURL + "/api/Terminal/GetStore"
-    static let transferHistoryUrl = baseURL + "/api/Consumer/GetTxHistory"
-    static let getDeviceInfoUrl = baseURL + "/api/Terminal/GetDeviceInfo"
-    static let getSupportedSymbol = baseURL + "/api/Terminal/GetSupportedSymbol"
-    static let getChainAccountList = baseURL + "/api/Consumer/GetChainAccountList"
-    static let accountOperationUrl = baseURL + "/api/Consumer/BindingChainAccount"
-    static let refundUrl = baseURL + "/api/Consumer/Refund";
-    static let refillUrl = baseURL + "/api/Consumer/Refill";
-    static let encryptPaymentDataUrl = baseURL + "/api/B2B/ProduceCipher";
+    static var adminLoginUrl = baseURL + "/api/Admin/Login"
+    static var registerUrl = baseURL + "/api/Consumer/Register"
+    static var userLoginUrl = baseURL + "/api/Consumer/Login"
+    static var changePwdUrl = baseURL + "/api/Consumer/ChangePassword"
+    static var transferUrl = baseURL + "/api/Consumer/Transfer"
+    static var balanceUrl = baseURL + "/api/Consumer/GetAccountBalance"
+    static var balanceListUrl = baseURL + "/api/Consumer/GetAccountBalanceList"
+    static var paymentUrl = baseURL + "/api/Consumer/Payment"
+    static var paymentHistoryUrl = baseURL + "/api/Consumer/GetPaymentHistory"
+    static var getStoreUrl = baseURL + "/api/Terminal/GetStore"
+    static var transferHistoryUrl = baseURL + "/api/Consumer/GetTxHistory"
+    static var getDeviceInfoUrl = baseURL + "/api/Terminal/GetDeviceInfo"
+    static var getSupportedSymbol = baseURL + "/api/Terminal/GetSupportedSymbol"
+    static var getChainAccountList = baseURL + "/api/Consumer/GetChainAccountList"
+    static var accountOperationUrl = baseURL + "/api/Consumer/BindingChainAccount"
+    static var refundUrl = baseURL + "/api/Consumer/Refund";
+    static var refillUrl = baseURL + "/api/Consumer/Refill";
+    static var encryptPaymentDataUrl = baseURL + "/api/B2B/ProduceCipher";
     
     private static var theToken = ""
+    
+    static func setServerURL(url:String){
+        baseURL = url
+        adminLoginUrl = baseURL + "/api/Admin/Login"
+        registerUrl = baseURL + "/api/Consumer/Register"
+        userLoginUrl = baseURL + "/api/Consumer/Login"
+        changePwdUrl = baseURL + "/api/Consumer/ChangePassword"
+        transferUrl = baseURL + "/api/Consumer/Transfer"
+        balanceUrl = baseURL + "/api/Consumer/GetAccountBalance"
+        balanceListUrl = baseURL + "/api/Consumer/GetAccountBalanceList"
+        paymentUrl = baseURL + "/api/Consumer/Payment"
+        paymentHistoryUrl = baseURL + "/api/Consumer/GetPaymentHistory"
+        getStoreUrl = baseURL + "/api/Terminal/GetStore"
+        transferHistoryUrl = baseURL + "/api/Consumer/GetTxHistory"
+        getDeviceInfoUrl = baseURL + "/api/Terminal/GetDeviceInfo"
+        getSupportedSymbol = baseURL + "/api/Terminal/GetSupportedSymbol"
+        getChainAccountList = baseURL + "/api/Consumer/GetChainAccountList"
+        accountOperationUrl = baseURL + "/api/Consumer/BindingChainAccount"
+        refundUrl = baseURL + "/api/Consumer/Refund";
+        refillUrl = baseURL + "/api/Consumer/Refill";
+        encryptPaymentDataUrl = baseURL + "/api/B2B/ProduceCipher";
+    }
     
     func getAdminToken() -> String?{
         logw("getAdminToken")
@@ -227,7 +249,14 @@ class SecuXServerRequestHandler: RestRequestHandler {
             return (SecuXRequestResult.SecuXRequestNoToken, nil)
         }
         
-        let param = ["symbol":token, "page":pageIdx, "count":pageItemCount, "columnName":"", "sorting":""] as [String : Any]
+        let subparam = ["offset":pageIdx, "limit":pageItemCount, "sort": "transactionTime", "order": "descending"] as [String : Any]
+        let param = ["keyword": "",
+                    "startTime": "",
+                    "endTime": "",
+                    "payChannel": "",
+                    "symbol": "",
+                    "transactionStatus": "",
+                    "params":subparam] as [String : Any]
         return self.postRequestSync(urlstr: SecuXServerRequestHandler.paymentHistoryUrl, param: param, token: SecuXServerRequestHandler.theToken)
     }
     

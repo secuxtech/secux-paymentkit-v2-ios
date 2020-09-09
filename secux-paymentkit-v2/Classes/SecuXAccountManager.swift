@@ -15,9 +15,13 @@ open class SecuXAccountManager{
         
     }
     
+    public func getBaseServer() -> String{
+        return SecuXServerRequestHandler.baseURL
+    }
+    
     public func setBaseServer(url:String){
         logw("setBaseServer \(url)")
-        SecuXServerRequestHandler.baseURL = url
+        SecuXServerRequestHandler.setServerURL(url: url)
     }
     
     public func registerUserAccount(userAccount: SecuXUserAccount, coinType: String, token: String) -> (SecuXRequestResult, Data?){

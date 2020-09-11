@@ -12,7 +12,7 @@ import Foundation
 class SecuXServerRequestHandler: RestRequestHandler {
     
 
-    static var baseURL = "https://pmsweb-test.secux.io"  //"https://pmsweb-sandbox.secuxtech.com" //"https://pmsweb-test.secux.io"
+    static var baseURL = "https://pmsweb-sandbox.secuxtech.com" //"https://pmsweb-test.secux.io"  //"https://pmsweb-sandbox.secuxtech.com" //"https://pmsweb-test.secux.io"
     static var adminLoginUrl = baseURL + "/api/Admin/Login"
     static var registerUrl = baseURL + "/api/Consumer/Register"
     static var userLoginUrl = baseURL + "/api/Consumer/Login"
@@ -268,7 +268,17 @@ class SecuXServerRequestHandler: RestRequestHandler {
             return (SecuXRequestResult.SecuXRequestNoToken, nil)
         }
         
-        let param = ["symbol":token, "page":1, "count":10, "columnName":"", "sorting":"", "transactionCode":transactionCode] as [String : Any]
+        //let param = ["symbol":token, "page":1, "count":10, "columnName":"", "sorting":"", "transactionCode":transactionCode] as [String : Any]
+        
+        let subparam = ["offset":0, "limit":10, "sort": "transactionTime", "order": "descending"] as [String : Any]
+        let param = ["keyword": transactionCode,
+                    "startTime": "",
+                    "endTime": "",
+                    "payChannel": "",
+                    "symbol": token,
+                    "transactionStatus": "",
+                    "params":subparam] as [String : Any]
+        
         return self.postRequestSync(urlstr: SecuXServerRequestHandler.paymentHistoryUrl, param: param, token: SecuXServerRequestHandler.theToken)
     }
     

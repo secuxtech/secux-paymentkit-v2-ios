@@ -68,25 +68,25 @@ public class SecuXPromotion{
         }
     }
     
-    init(promotionJson: [String:String]){
+    init(promotionJson: [String:Any]){
             
-        if let proType = promotionJson["type"]{
+        if let proType = promotionJson["type"] as? String{
             self.type = proType
         }
         
-        if let proCode = promotionJson["code"]{
+        if let proCode = promotionJson["code"] as? String{
             self.code = proCode
         }
         
-        if let proName = promotionJson["name"]{
+        if let proName = promotionJson["name"] as? String{
             self.name = proName
         }
         
-        if let proDesc = promotionJson["description"]{
+        if let proDesc = promotionJson["description"] as? String{
             self.desc = proDesc
         }
         
-        if let imgStr = promotionJson["icon"], imgStr.count > 0,
+        if let imgStr = promotionJson["icon"] as? String, imgStr.count > 0,
             let data = Data(base64Encoded: imgStr, options: .ignoreUnknownCharacters){
             
             self.imgData = data
@@ -159,7 +159,7 @@ public class SecuXStoreInfo {
                 throw SecuXStoreInfoError.noCoinToken
             }
             
-            if let promotionInfoArray = storeJson["supportedPromotion"] as? [[String:String]]{
+            if let promotionInfoArray = storeJson["supportedPromotion"] as? [[String:Any]]{
                 for item in promotionInfoArray{
                    
                     let promotion = SecuXPromotion.init(promotionJson: item)

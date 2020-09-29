@@ -8,9 +8,13 @@
 
 Pod::Spec.new do |s|
   s.name             = 'secux-paymentkit-v2'
-  s.version          = '2.0.9'
+  s.version          = '2.0.10'
   s.summary          = 'iOS Lib for SecuX P22/P20'
   s.swift_version    = '5.0'
+  s.pod_target_xcconfig = {
+      'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64'
+    }
+  s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
   
 
 # This description is used to generate tags and improve search results.
@@ -31,7 +35,7 @@ iOS Lib for SecuX Payment device P22 and P20
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '12.0'
-  #s.platform              = :ios, "12.0"
+  s.platform              = :ios, "12.0"
 
   s.source_files = 'secux-paymentkit-v2/Classes/**/*'
   

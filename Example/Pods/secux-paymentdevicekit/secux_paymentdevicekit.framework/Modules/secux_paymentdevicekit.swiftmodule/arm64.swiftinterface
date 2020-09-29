@@ -1,5 +1,5 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.2.4 (swiftlang-1103.0.32.9 clang-1103.0.32.53)
+// swift-compiler-version: Apple Swift version 5.3 (swiftlang-1200.0.29.2 clang-1200.0.30.1)
 // swift-module-flags: -target arm64-apple-ios11.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name secux_paymentdevicekit
 import CommonCrypto
 import CoreBluetooth
@@ -65,7 +65,7 @@ public enum ConnDevStatus : Swift.Int {
   }
 }
 @objc public protocol BLEDevControllerDelegate : ObjectiveC.NSObjectProtocol {
-  @objc func enableBLESetting()
+  @objc func updateBLESetting(state: CoreBluetooth.CBManagerState)
   @objc func updateConnDevStatus(status: Swift.Int)
   @objc optional func newBLEDevice(newDev: secux_paymentdevicekit.SecuXBLEDev)
   @objc optional func updateBLEDevice(dev: secux_paymentdevicekit.SecuXBLEDev)

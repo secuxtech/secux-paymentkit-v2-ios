@@ -58,7 +58,13 @@ class SecuXServerRequestHandler: RestRequestHandler {
     
     func getAdminToken() -> String?{
         logw("getAdminToken")
-        let param = ["account": "secux_register", "password":"!secux_register@123"]
+        
+        var adminPwd = "!secux_register@123"
+        if SecuXServerRequestHandler.baseURL.caseInsensitiveCompare("https://pmsweb.secuxtech.com") == .orderedSame{
+            adminPwd = "168!Secux@168"
+        }
+        
+        let param = ["account": "secux_register", "password":adminPwd]
         let (ret, data) = self.postRequestSync(urlstr: SecuXServerRequestHandler.adminLoginUrl, param: param)
         if ret == SecuXRequestResult.SecuXRequestOK, let tokenData = data{
             

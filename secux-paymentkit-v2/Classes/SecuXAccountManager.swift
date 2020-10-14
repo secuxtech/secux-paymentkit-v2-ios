@@ -24,6 +24,10 @@ open class SecuXAccountManager{
         SecuXServerRequestHandler.setServerURL(url: url)
     }
     
+    public func setAdminAccount(name:String, password:String){
+        self.secuXSvrReqHandler.setAdminAccount(name: name, password: password)
+    }
+    
     public func registerUserAccount(userAccount: SecuXUserAccount, coinType: String, token: String) -> (SecuXRequestResult, Data?){
         logw("registerUserAccount")
         let (ret, data) = secuXSvrReqHandler.userRegister(userAccount: userAccount, coinType: coinType, token: token)

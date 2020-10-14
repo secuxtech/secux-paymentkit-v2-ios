@@ -56,15 +56,32 @@ class SecuXServerRequestHandler: RestRequestHandler {
         encryptPaymentDataUrl = baseURL + "/api/B2B/ProduceCipher";
     }
     
+    var adminAccountName = ""
+    var adminAccountPassword = ""
+    
+    func setAdminAccount(name:String, password:String){
+        adminAccountName = name
+        adminAccountPassword = password
+    }
+    
+    
     func getAdminToken() -> String?{
         logw("getAdminToken")
         
-        var adminPwd = "!secux_register@123"
-        if SecuXServerRequestHandler.baseURL.caseInsensitiveCompare("https://pmsweb.secuxtech.com") == .orderedSame{
-            adminPwd = "168!Secux@168"
+        var adminPwd = ""
+        var adminName = ""
+        if adminAccountName.count > 0, adminAccountPassword.count > 0{
+            adminName = adminAccountName
+            adminPwd = adminAccountPassword
+        }else{
+            adminName = "secux_register"
+            adminPwd = "!secux_register@123"
+            if SecuXServerRequestHandler.baseURL.caseInsensitiveCompare("https://pmsweb.secuxtech.com") == .orderedSame{
+                adminPwd = "168!Secux@168"
+            }
         }
         
-        let param = ["account": "secux_register", "password":adminPwd]
+        let param = ["account": adminName, "password":adminPwd]
         let (ret, data) = self.postRequestSync(urlstr: SecuXServerRequestHandler.adminLoginUrl, param: param)
         if ret == SecuXRequestResult.SecuXRequestOK, let tokenData = data{
             
@@ -230,7 +247,14 @@ class SecuXServerRequestHandler: RestRequestHandler {
             return (SecuXRequestResult.SecuXRequestNoToken, nil)
         }
         
-        let param = ["ivKey":payInfo.ivKey, "memo":"", "symbol":payInfo.token, "amount":payInfo.amount, "coinType":payInfo.coinType, "receiver":payInfo.deviceID]
+        let secondsFromGMT = TimeZone.current.secondsFromGMT()
+        let param = ["ivKey":payInfo.ivKey,
+                     "memo":"",
+                     "symbol":payInfo.token,
+                     "amount":payInfo.amount,
+                     "coinType":payInfo.coinType,
+                     "receiver":payInfo.deviceID,
+                     "timeZone":"\(secondsFromGMT)"]
         
         return self.postRequestSync(urlstr: SecuXServerRequestHandler.paymentUrl, param: param, token: SecuXServerRequestHandler.theToken)
     }
@@ -318,7 +342,11 @@ class SecuXServerRequestHandler: RestRequestHandler {
             return (SecuXRequestResult.SecuXRequestNoToken, nil)
         }
         
-        let param = ["deviceIDhash": devIDHash, "ivKey": ivKey, "hashTx":dataHash] as [String : Any]
+        let secondsFromGMT = TimeZone.current.secondsFromGMT()
+        let param = ["deviceIDhash": devIDHash,
+                     "ivKey": ivKey,
+                     "hashTx":dataHash,
+                     "timeZone":"\(secondsFromGMT)"] as [String : Any]
         return self.postRequestSync(urlstr: SecuXServerRequestHandler.refundUrl, param: param, token: SecuXServerRequestHandler.theToken)
     }
     
@@ -328,7 +356,11 @@ class SecuXServerRequestHandler: RestRequestHandler {
             return (SecuXRequestResult.SecuXRequestNoToken, nil)
         }
         
-        let param = ["deviceIDhash": devIDHash, "ivKey": ivKey, "hashTx":dataHash] as [String : Any]
+        let secondsFromGMT = TimeZone.current.secondsFromGMT()
+        let param = ["deviceIDhash": devIDHash,
+                     "ivKey": ivKey,
+                     "hashTx":dataHash,
+                     "timeZone":"\(secondsFromGMT)"] as [String : Any]
         return self.postRequestSync(urlstr: SecuXServerRequestHandler.refillUrl, param: param, token: SecuXServerRequestHandler.theToken)
     }
     

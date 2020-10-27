@@ -260,6 +260,58 @@ open class SecuXPaymentManagerBase{
         }
         
     }
+    
+    internal func doPayment(paymentInfo: PaymentInfo){
+        logw("doPayment for none-ble P22 \(paymentInfo.amount) \(paymentInfo.coinType) \(paymentInfo.token)")
+        
+        let (ret, data) = self.secXSvrReqHandler.doPayment(payInfo: paymentInfo)
+        if ret==SecuXRequestResult.SecuXRequestOK, let payInfo = data {
+            
+            do{
+                let json  = try JSONSerialization.jsonObject(with: payInfo, options: []) as! [String : Any]
+                print("recv \(json)  \n--------")
+                
+                if let statusCode = json["statusCode"] as? Int, let statusDesc = json["statusDesc"] as? String{
+                    if statusCode != 200{
+                        self.handlePaymentDone(ret: false, errorMsg: statusDesc)
+                        return
+                    }
+                }
+                
+                if let transCode = json["transactionCode"] as? String{
+                
+                    self.handlePaymentDone(ret: true, errorMsg: transCode)
+                   
+                }else{
+                    
+                    self.handlePaymentDone(ret: false, errorMsg: "Invalid payment data from server! No transaction code.")
+                    
+                }
+                
+            }catch{
+                print("doPayment error: " + error.localizedDescription)
+                self.handlePaymentDone(ret: false, errorMsg: error.localizedDescription)
+                
+                return
+            }
+           
+        }else if ret==SecuXRequestResult.SecuXRequestNoToken || ret==SecuXRequestResult.SecuXRequestUnauthorized{
+            
+            self.handlePaymentDone(ret: false, errorMsg: "no token")
+            
+        }else{
+            
+            print("doPayment failed!!")
+            var error = "Send request to server failed."
+            if let data = data{
+                let msg = String(data: data, encoding: .utf8) ?? ""
+                error = msg
+            }
+            
+            self.handlePaymentDone(ret: false, errorMsg:error)
+            
+        }
+    }
  
     
     internal func handlePaymentDone(ret: Bool, errorMsg: String){

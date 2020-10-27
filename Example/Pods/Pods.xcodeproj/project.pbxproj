@@ -724,6 +724,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
+				MARKETING_VERSION = 2.1.15;
 				MODULEMAP_FILE = "Target Support Files/secux-paymentkit-v2/secux-paymentkit-v2.modulemap";
 				PRODUCT_MODULE_NAME = secux_paymentkit_v2;
 				PRODUCT_NAME = secux_paymentkit_v2;
@@ -821,6 +822,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
+				MARKETING_VERSION = 2.1.15;
 				MODULEMAP_FILE = "Target Support Files/secux-paymentkit-v2/secux-paymentkit-v2.modulemap";
 				PRODUCT_MODULE_NAME = secux_paymentkit_v2;
 				PRODUCT_NAME = secux_paymentkit_v2;

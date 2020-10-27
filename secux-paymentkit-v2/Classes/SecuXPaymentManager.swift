@@ -220,6 +220,18 @@ open class SecuXPaymentManager: SecuXPaymentManagerBase {
         return (ret, nil)
     }
     
+    open func doPaymentForNoBLEP22Async(paymentInfo:String){
+        DispatchQueue.global(qos: .default).async {
+            
+            guard let payInfo = PaymentInfo.init(infoStr: paymentInfo) else{
+                self.handlePaymentDone(ret: false, errorMsg: "Invalid payment info.")
+                return
+            }
+            
+            self.doPayment(paymentInfo: payInfo)
+        }
+    }
+    
     open func doPaymentAsync(storeInfo: String, paymentInfo: String){
         
         DispatchQueue.global(qos: .default).async {

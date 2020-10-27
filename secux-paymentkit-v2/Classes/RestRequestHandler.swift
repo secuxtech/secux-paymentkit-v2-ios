@@ -125,7 +125,14 @@ open class RestRequestHandler {
           
             if let response = response as? HTTPURLResponse{
                 if response.statusCode == 200{
-                    //print(response)
+                    
+                    /*
+                    print(request.url)
+                    if let requestData = request.httpBody{
+                        print(String(decoding: requestData, as: UTF8.self))
+                    }
+                    print(String(decoding: data!, as: UTF8.self))
+                    */
                   
                     dataRet = data
                     taskRet = SecuXRequestResult.SecuXRequestOK

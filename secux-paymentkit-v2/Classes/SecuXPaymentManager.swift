@@ -171,6 +171,16 @@ open class SecuXPaymentManager: SecuXPaymentManagerBase {
         
     }
     
+    open func getPaymentUrl(payChannel:String, devID:String, amount:String, productName:String ) -> (SecuXRequestResult, Data?){
+        let (ret, data) = self.secXSvrReqHandler.getPaymentUrl(payChannel: payChannel, devID: devID, amount: amount, productName: productName)
+        return (ret, data)
+    }
+    
+    open func checkPaymentStatus(payChannel:String, orderID:String, devID:String) -> (SecuXRequestResult, Data?){
+        let (ret, data) = self.secXSvrReqHandler.checkPaymentStatus(payChannel: payChannel, orderID: orderID, devID: devID)
+        return (ret, data)
+    }
+    
     open func getPaymentHistory(token:String, pageIdx:Int, pageItemCount: Int)->(SecuXRequestResult, [SecuXPaymentHistory]){
         var historyArray = [SecuXPaymentHistory]()
         

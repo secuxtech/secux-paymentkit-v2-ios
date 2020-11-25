@@ -176,10 +176,7 @@ open class SecuXPaymentManager: SecuXPaymentManagerBase {
         return (ret, data)
     }
     
-    open func checkPaymentStatus(payChannel:String, orderID:String, devID:String) -> (SecuXRequestResult, Data?){
-        let (ret, data) = self.secXSvrReqHandler.checkPaymentStatus(payChannel: payChannel, orderID: orderID, devID: devID)
-        return (ret, data)
-    }
+ 
     
     open func getPaymentHistory(token:String, pageIdx:Int, pageItemCount: Int)->(SecuXRequestResult, [SecuXPaymentHistory]){
         var historyArray = [SecuXPaymentHistory]()
@@ -277,6 +274,37 @@ open class SecuXPaymentManager: SecuXPaymentManagerBase {
             
             
             self.doPayment(nonce:nonce, paymentInfo: payInfo, devConfigInfo: payDevConfigInfo)
+        }
+    }
+    
+    open func doPaymentAsync(nonce:String, payChannel:String, orderID:String, devID:String){
+        
+        DispatchQueue.global(qos: .default).async {
+            logw("doThirdPartyPayment ")
+            
+            self.handlePaymentStatus(status: "Device connecting...")
+            
+            
+            //let (ret, ivkey) = paymentPeripheralManager.doGetIVKey(devID: paymentInfo.deviceID)
+            
+            guard let nonceData = nonce.hexData else{
+                self.handlePaymentDone(ret: false, errorMsg: "Invalid payment nonce!")
+                return
+            }
+            
+            let (ret, ivkey) = self.paymentPeripheralManager.doGetIVKey(devID: devID, nonce: [UInt8](nonceData))
+            
+            if ret == .OprationSuccess{
+                
+                let (ret, data) = self.secXSvrReqHandler.checkThirdPartyPaymentStatus(payChannel: payChannel, orderID: orderID, devID: devID, ivKey:ivkey)
+                
+                if ret == SecuXRequestResult.SecuXRequestOK, let data = data{
+                    self.sendThirdPartyPayInfoToDevice(payInfo: data)
+                }
+            }else{
+                self.handlePaymentDone(ret: false, errorMsg: ivkey)
+            }
+            
         }
     }
     

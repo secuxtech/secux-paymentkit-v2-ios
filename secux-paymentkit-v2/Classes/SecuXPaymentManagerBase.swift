@@ -97,9 +97,56 @@ open class SecuXPaymentManagerBase{
         }
     }
     
+    public func sendThirdPartyPayInfoToDevice(payInfo: Data){
+        
+        logw("sendThirdPartyPayInfoToDevice")
+        
+           
+        do{
+            let json  = try JSONSerialization.jsonObject(with: payInfo, options: []) as! [String : Any]
+            print("sendInfoToDevice recv \(json)  \n--------")
+            
+            if let statusCode = json["statusCode"] as? Int, let statusDesc = json["statusDesc"] as? String{
+                if statusCode != 200{
+                    self.handlePaymentDone(ret: false, errorMsg: statusDesc)
+                    return
+                }
+            }
+            
+            if let machineControlParams = json["machineControlParam"] as? [String : Any],
+                let encryptedStr = json["encryptedTransaction"] as? String,
+                let transCode = json["transactionCode"] as? String,
+                let encrypted = Data(base64Encoded: encryptedStr){
+                
+                logw("AccountPaymentViewModel doPaymentVerification")
+               
+                self.handlePaymentStatus(status: "Device verifying ...")
+                
+                let (ret, errorMsg) = self.paymentPeripheralManager.doPaymentVerification(encPaymentData: encrypted, machineControlParams: machineControlParams)
+                if ret == .OprationSuccess{
+                    self.handlePaymentDone(ret: true, errorMsg: transCode)
+                }else{
+                    self.handlePaymentDone(ret: false, errorMsg: errorMsg)
+                }
+              
+            }else{
+                
+                self.handlePaymentDone(ret: false, errorMsg: "Invalid payment data from server")
+                
+            }
+            
+        }catch{
+            print("doPayment error: " + error.localizedDescription)
+            self.handlePaymentDone(ret: false, errorMsg: error.localizedDescription)
+            
+            return
+        }
+        
+    }
+    
     private func sendInfoToDevice(paymentInfo: PaymentInfo){
         
-        logw("AccountPaymentViewModel sendInfoToDevice")
+        logw("sendInfoToDevice")
         
         let (ret, data) = self.secXSvrReqHandler.doPayment(payInfo: paymentInfo)
         if ret==SecuXRequestResult.SecuXRequestOK, let payInfo = data {

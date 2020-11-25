@@ -406,7 +406,7 @@ class SecuXServerRequestHandler: RestRequestHandler {
         
     }
     
-    func checkPaymentStatus(payChannel:String, orderID:String, devID:String) -> (SecuXRequestResult, Data?){
+    func checkThirdPartyPaymentStatus(payChannel:String, orderID:String, devID:String, ivKey:String) -> (SecuXRequestResult, Data?){
         print("checkPaymentStatus")
         if SecuXServerRequestHandler.theToken.count == 0{
             logw("no token")
@@ -414,7 +414,8 @@ class SecuXServerRequestHandler: RestRequestHandler {
         }
         
         let secondsFromGMT = TimeZone.current.secondsFromGMT()
-        let param = ["payChannel": payChannel,
+        let param = ["ivKey":ivKey,
+                     "payChannel": payChannel,
                      "orderId": orderID,
                      "deviceId":devID,
                      "timeZone":"\(secondsFromGMT)"] as [String : String]

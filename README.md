@@ -136,6 +136,8 @@ Use SecuXAccountManager object to do the operations below
 ```
     SecuXRequestResult shows the operation result. If the result is SecuXRequestOK,
     registration is successful, otherwise data might contain an error message.
+
+    Note: if return result is SecuXRequestNoToken, the administractor account is not correct.
 ```
 
 #### <u>Sample</u>
@@ -283,6 +285,50 @@ Must successfully login the server before calling the function. Return the coin/
     if let tokenBal = coinAcc.tokenBalanceDict["SPC"]{
         print("\(coinAcc.coinType) \(token) \(tokenBal.theBalance) 
                \(tokenBal.theFormattedBalance) \(tokenBal.theUsdBalance)")
+    }
+```
+
+2.6 <b>Change user login password</b>  
+Must successfully login the server before calling the function. 
+
+#### <u>Declaration</u>
+```swift
+    func changePassword(oldPwd: String, newPwd: String) -> (SecuXRequestResult, Data?)
+```
+#### <u>Parameter</u>
+```
+    oldPwd: User current login password.
+    newPwd: User new login password.
+```
+
+#### <u>Return value</u>
+```
+    SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, 
+    password is changed successfully, otherwise data might contain  
+    an error message.
+
+    Note: if return result is SecuXRequestNoToken / SecuXRequestUnauthorized, the login 
+    session is timeout, please relogin the system.
+```
+
+#### <u>Sample</u>
+```swift
+    DispatchQueue.global(qos: .default).async {
+        let accMgr = SecuXAccountManager()
+        let (ret, data) = accMgr.changePassword(oldPwd: oldpwd, newPwd: pwd)
+        
+        if ret == SecuXRequestResult.SecuXRequestOK{
+            
+            //Change password done
+            
+        }else{
+            var error = ""
+            if let errData = data{
+                error = String(data: errData, encoding: String.Encoding.utf8) ?? ""
+            }
+            self.showMessageInMainThread(title: "Change password failed", message:error)
+        }
+        
     }
 ```
 

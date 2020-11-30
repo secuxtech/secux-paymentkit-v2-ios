@@ -32,7 +32,14 @@ pod 'secux-paymentkit-v2'
 
 ## Usage
 
-### Server URL
+### 1. Initializations
+
+Use SecuXAccountManager object to do the operations below
+```swift
+    let accManager = SecuXAccountManager()
+```
+
+#### 1.1 <b>Set server URL</b>
         Set server URL before using the APIs below
 
 #### <u>Declaration</u>
@@ -43,14 +50,39 @@ pod 'secux-paymentkit-v2'
 #### <u>Parameters</u>
         Server URL. e.g. https://pmsweb-test.secux.io
 
-### SecuXAccount related operations
+#### <u>Sample</u>
+```swift
+    let accMgr = SecuXAccountManager()
+    let serverUrl = "https://pmsweb-test.secux.io"
+    accMgr.setBaseServer(url: serverUrl)
+```
+#### 1.2 <b>Set administractor account and password</b>
+        Set the administractor account, which is assigned to customers by SecuX
+
+#### <u>Declaration</u>
+```swift
+    func setAdminAccount(name:String, password:String)
+```
+
+#### <u>Parameters</u>
+        name:       Administractor account name.
+        password:   Administractor account password.
+
+#### <u>Sample</u>
+```swift
+    let accMgr = SecuXAccountManager()
+    accMgr.setAdminAccount(name:"testAccount", password:"12345678")
+```
+
+
+### 2. SecuXAccount related operations
 
 Use SecuXAccountManager object to do the operations below
 ```swift
     let accManager = SecuXAccountManager()
 ```
 
-1. <b>Get supported coin/token</b>
+2.1 <b>Get supported coin/token</b>
 
 #### <u>Declaration</u>
 ```swift
@@ -85,7 +117,7 @@ Use SecuXAccountManager object to do the operations below
     }
 ```
 
-2. <b>Registration</b>
+2.2 <b>Registration</b>
 #### <u>Declaration</u>
 ```swift
     func registerUserAccount(userAccount: SecuXUserAccount, 
@@ -125,7 +157,7 @@ Use SecuXAccountManager object to do the operations below
     }
 ```
 
-3. <b>Login</b>
+2.3 <b>Login</b>
 
 Note: **Login session is valid for 30 minutes**. To continue use after 30 minutes, relogin is required.
 
@@ -164,8 +196,8 @@ Note: **Login session is valid for 30 minutes**. To continue use after 30 minute
     }
 ```
 
-4. <b>Get coin/token account list</b>  
-Must successfully login the server before calling the function
+2.4 <b>Get coin/token account list</b>  
+Must successfully login the server before calling the function. Return all the coin/token accounts belongs to the login user.
 
 #### <u>Declaration</u>
 ```swift
@@ -206,7 +238,9 @@ Must successfully login the server before calling the function
     }
 ```
 
-5. <b>Get coin/token account balance</b> 
+2.5 <b>Get coin/token account balance</b> 
+
+Must successfully login the server before calling the function. Return the coin/token account balance
 
 #### <u>Declaration</u>
 ```swift

@@ -34,7 +34,16 @@ pod 'secux-paymentkit-v2'
 
 ### 1. Initializations
 
-Use SecuXAccountManager object to do the operations below
+All the three init functions should be done when app starts up.
+```swift
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions... {
+    
+    //Initialization functions here
+
+}
+```
+
+Use SecuXAccountManager object to do the operations below.
 ```swift
     let accManager = SecuXAccountManager()
 ```

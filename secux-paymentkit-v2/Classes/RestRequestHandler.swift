@@ -118,21 +118,31 @@ open class RestRequestHandler {
           
         var dataRet: Data? = nil
         var taskRet = SecuXRequestResult.SecuXRequestFailed
+        
+        
           
         let taskDG = DispatchGroup()
         taskDG.enter()
         let task = URLSession.shared.dataTask(with: request){ data, response, error in
           
             if let response = response as? HTTPURLResponse{
+                
+                #if DEBUG
+                print(request.url)
+                if let requestData = request.httpBody{
+                    print(String(decoding: requestData, as: UTF8.self))
+                }
+                #endif
+                
                 if response.statusCode == 200{
                     
-                    /*
+                    #if DEBUG
                     print(request.url)
                     if let requestData = request.httpBody{
                         print(String(decoding: requestData, as: UTF8.self))
                     }
                     print(String(decoding: data!, as: UTF8.self))
-                    */
+                    #endif
                   
                     dataRet = data
                     taskRet = SecuXRequestResult.SecuXRequestOK

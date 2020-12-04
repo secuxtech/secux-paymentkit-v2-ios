@@ -295,12 +295,19 @@ open class SecuXPaymentManager: SecuXPaymentManagerBase {
             let (ret, ivkey) = self.paymentPeripheralManager.doGetIVKey(devID: devID, nonce: [UInt8](nonceData))
             
             if ret == .OprationSuccess{
-                
-                let (ret, data) = self.secXSvrReqHandler.checkThirdPartyPaymentStatus(payChannel: payChannel, orderID: orderID, devID: devID, ivKey:ivkey)
-                
-                if ret == SecuXRequestResult.SecuXRequestOK, let data = data{
-                    self.sendThirdPartyPayInfoToDevice(payInfo: data)
+                self.handlePaymentStatus(status: "Check payment status...")
+                for _ in 0 ... 2{
+                    
+                    let (ret, data) = self.secXSvrReqHandler.checkThirdPartyPaymentStatus(payChannel: payChannel, orderID: orderID, devID: devID, ivKey:ivkey)
+                    
+                    if ret == SecuXRequestResult.SecuXRequestOK, let data = data{
+                        self.sendThirdPartyPayInfoToDevice(payInfo: data)
+                        break
+                    }else{
+                        sleep(3)
+                    }
                 }
+                
             }else{
                 self.handlePaymentDone(ret: false, errorMsg: ivkey)
             }

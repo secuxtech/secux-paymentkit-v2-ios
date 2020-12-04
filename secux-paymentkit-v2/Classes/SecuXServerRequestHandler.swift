@@ -62,12 +62,12 @@ class SecuXServerRequestHandler: RestRequestHandler {
         checkPaymentStatus = baseURL + "/api/Consumer/CheckFiatPaymentStatus"
     }
     
-    var adminAccountName = ""
-    var adminAccountPassword = ""
+    private static var adminAccountName = ""
+    private static var adminAccountPassword = ""
     
     func setAdminAccount(name:String, password:String){
-        adminAccountName = name
-        adminAccountPassword = password
+        SecuXServerRequestHandler.adminAccountName = name
+        SecuXServerRequestHandler.adminAccountPassword = password
     }
     
     
@@ -76,15 +76,20 @@ class SecuXServerRequestHandler: RestRequestHandler {
         
         var adminPwd = ""
         var adminName = ""
-        if adminAccountName.count > 0, adminAccountPassword.count > 0{
-            adminName = adminAccountName
-            adminPwd = adminAccountPassword
+        if SecuXServerRequestHandler.adminAccountName.count > 0, SecuXServerRequestHandler.adminAccountPassword.count > 0{
+            adminName = SecuXServerRequestHandler.adminAccountName
+            adminPwd = SecuXServerRequestHandler.adminAccountPassword
         }else{
+            
+            /*
             adminName = "secux_register"
             adminPwd = "!secux_register@123"
             if SecuXServerRequestHandler.baseURL.caseInsensitiveCompare("https://pmsweb.secuxtech.com") == .orderedSame{
                 adminPwd = "168!Secux@168"
             }
+            */
+            
+            return nil
         }
         
         let param = ["account": adminName, "password":adminPwd]
@@ -166,7 +171,11 @@ class SecuXServerRequestHandler: RestRequestHandler {
     func getSupportedCoinTokens()  -> (SecuXRequestResult, Data?){
         logw("getSupportedToken")
         
-        return self.postRequestSync(urlstr: SecuXServerRequestHandler.getSupportedSymbol, param: nil)
+        guard let bearerToken = getAdminToken() else{
+            return (SecuXRequestResult.SecuXRequestNoToken, nil);
+        }
+
+        return self.postRequestSync(urlstr: SecuXServerRequestHandler.getSupportedSymbol, param: nil, token: bearerToken)
     }
     
     func getChainAccountList() -> (SecuXRequestResult, Data?){

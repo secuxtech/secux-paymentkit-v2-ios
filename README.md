@@ -84,11 +84,6 @@ Use SecuXAccountManager object to do the operations below.
     accMgr.setAdminAccount(name:"testAccount", password:"12345678")
 ```
 
-#### 1.3 <b>Initialize BLE manager</b>
-
-    let _ = SecuXBLEManager.shared
-
-
 ### 2. SecuXAccount related operations
 
 Use SecuXAccountManager object to do the operations below

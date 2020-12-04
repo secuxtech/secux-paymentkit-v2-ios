@@ -63,6 +63,7 @@ open class SecuXPaymentManagerBase{
             if let statusCode = json["statusCode"] as? Int{
                 if statusCode != 200{
                     let statusDesc = json["statusDesc"] as? String ?? ""
+                    self.paymentPeripheralManager.requestDisconnect()
                     return (SecuXRequestResult.SecuXRequestFailed, "Invalid status code \(statusCode) from server! \(statusDesc)")
                 }
             }
@@ -85,14 +86,14 @@ open class SecuXPaymentManagerBase{
               
                 
             }else{
-                
+                self.paymentPeripheralManager.requestDisconnect()
                 return (SecuXRequestResult.SecuXRequestFailed, "Invalid data reply from server")
                 
             }
             
         }catch{
             print("doPayment error: " + error.localizedDescription)
-            
+            self.paymentPeripheralManager.requestDisconnect()
             return (SecuXRequestResult.SecuXRequestFailed, "Parsing server reply error")
         }
     }
@@ -108,6 +109,7 @@ open class SecuXPaymentManagerBase{
             
             if let statusCode = json["statusCode"] as? Int, let statusDesc = json["statusDesc"] as? String{
                 if statusCode != 200{
+                    self.paymentPeripheralManager.requestDisconnect()
                     self.handlePaymentDone(ret: false, errorMsg: statusDesc)
                     return
                 }
@@ -130,12 +132,13 @@ open class SecuXPaymentManagerBase{
                 }
               
             }else{
-                
+                self.paymentPeripheralManager.requestDisconnect()
                 self.handlePaymentDone(ret: false, errorMsg: "Invalid payment data from server")
                 
             }
             
         }catch{
+            self.paymentPeripheralManager.requestDisconnect()
             print("doPayment error: " + error.localizedDescription)
             self.handlePaymentDone(ret: false, errorMsg: error.localizedDescription)
             
@@ -148,6 +151,7 @@ open class SecuXPaymentManagerBase{
         
         logw("sendInfoToDevice")
         
+        self.handlePaymentStatus(status: "\(paymentInfo.token) transferring...")
         let (ret, data) = self.secXSvrReqHandler.doPayment(payInfo: paymentInfo)
         if ret==SecuXRequestResult.SecuXRequestOK, let payInfo = data {
             
@@ -158,6 +162,7 @@ open class SecuXPaymentManagerBase{
                 if let statusCode = json["statusCode"] as? Int, let statusDesc = json["statusDesc"] as? String{
                     if statusCode != 200{
                         self.handlePaymentDone(ret: false, errorMsg: statusDesc)
+                        self.paymentPeripheralManager.requestDisconnect()
                         return
                     }
                 }
@@ -182,12 +187,15 @@ open class SecuXPaymentManagerBase{
                   
                     
                 }else{
-                    
+                    self.paymentPeripheralManager.requestDisconnect()
                     self.handlePaymentDone(ret: false, errorMsg: "Invalid payment data from server")
                     
                 }
                 
             }catch{
+                
+                self.paymentPeripheralManager.requestDisconnect()
+                
                 print("doPayment error: " + error.localizedDescription)
                 self.handlePaymentDone(ret: false, errorMsg: error.localizedDescription)
                 
@@ -197,6 +205,7 @@ open class SecuXPaymentManagerBase{
            
         }else if ret==SecuXRequestResult.SecuXRequestNoToken || ret==SecuXRequestResult.SecuXRequestUnauthorized{
             
+            self.paymentPeripheralManager.requestDisconnect()
             self.handlePaymentDone(ret: false, errorMsg: "no token")
             
         }else{
@@ -208,6 +217,7 @@ open class SecuXPaymentManagerBase{
                 error = msg
             }
             
+            self.paymentPeripheralManager.requestDisconnect()
             self.handlePaymentDone(ret: false, errorMsg:error)
             
         }

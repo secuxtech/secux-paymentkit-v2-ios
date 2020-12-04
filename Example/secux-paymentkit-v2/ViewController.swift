@@ -29,13 +29,15 @@ class ViewController: UIViewController {
         theUserAccount = SecuXUserAccount(email: "maochuntest1@secuxtech.com", phone: "0975123456", password: "12345678")
         self.accountManager.setBaseServer(url: "https://pmsweb-test.secux.io")
         
+        self.accountManager.setAdminAccount(name: "secux_register", password: "!secux_register@123")
+        
         self.paymentManager.delegate = self
         DispatchQueue.global(qos: .default).async {
-            //self.doAccountActions()
+            self.doAccountActions()
             //self.doPaymentActions()
             
             //self.doRefundReillTest()
-            self.doEncryptPaymentDataTest()
+            //self.doEncryptPaymentDataTest()
         }
     }
 

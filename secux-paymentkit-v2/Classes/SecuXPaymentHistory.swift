@@ -71,10 +71,6 @@ public class SecuXPaymentHistory{
     init?(hisJson: [String : Any]) {
         
         guard let id = hisJson["id"] as? Int,
-            let storeID = hisJson["storeID"] as? Int,
-            let storeName = hisJson["storeName"] as? String,
-            let storeTel = hisJson["storeTel"] as? String,
-            let storeAddress = hisJson["storeAddress"] as? String,
             let userAccountName = hisJson["account"] as? String,
             let transactionCode = hisJson["transactionCode"] as? String,
             let transactionType = hisJson["transactionType"] as? String,
@@ -91,12 +87,17 @@ public class SecuXPaymentHistory{
         }
         
         let detailsUrl = hisJson["detailsUrl"] as? String
+        let storeID = hisJson["storeID"] as? Int
+        let storeName = hisJson["storeName"] as? String
+        let storeTel = hisJson["storeTel"] as? String
+        let storeAddress = hisJson["storeAddress"] as? String
+        
         
         self.theID = id
-        self.storeID = storeID
-        self.storeName = storeName
-        self.storeTel = storeTel
-        self.storeAddress = storeAddress
+        self.storeID = storeID ?? 0
+        self.storeName = storeName ?? ""
+        self.storeTel = storeTel ?? ""
+        self.storeAddress = storeAddress ?? ""
         self.userAccountName = userAccountName
         self.transactionCode = transactionCode
         self.transactionType = transactionType

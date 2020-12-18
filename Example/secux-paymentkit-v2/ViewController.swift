@@ -27,7 +27,7 @@ class ViewController: UIViewController {
         print("encInfo \(String(describing: encInfo))")
         
         theUserAccount = SecuXUserAccount(email: "maochuntest1@secuxtech.com", phone: "0975123456", password: "12345678")
-        self.accountManager.setBaseServer(url: "https://pmsweb-test.secux.io")
+        self.accountManager.setBaseServer(url: "https://pmsweb-sandbox.secuxtech.com")
         
         self.accountManager.setAdminAccount(name: "secux_register", password: "!secux_register@123")
         
@@ -96,6 +96,25 @@ class ViewController: UIViewController {
             return
         }
     
+        /*
+        let (ret, data) = accountManager.getAccountBalance(userAccount: theUserAccount, coinType: "DCT", token: "BEE")
+        
+        guard ret == SecuXRequestResult.SecuXRequestOK else{
+            print("get balance failed")
+            if let data = data{
+                print("Error: \(String(data: data, encoding: String.Encoding.utf8) ?? "")")
+            }
+            return
+        }
+       
+        if theUserAccount.coinAccountArray.count > 0 {
+            let beeAcc = theUserAccount.coinAccountArray[0]
+            
+            if let tokenBal = beeAcc.tokenBalanceDict["BEE"]{
+                print("\(tokenBal.theFormattedBalance)")
+            }
+        }
+        */
         
         //print out balance
         for coinAcc in theUserAccount!.coinAccountArray{
@@ -120,6 +139,10 @@ class ViewController: UIViewController {
             }
         }
         
+        
+        
+        
+    
         /*
         //Transfer
         let (reqret, reqdata, transRet) = accountManager.doTransfer(coinType: "DCT", token: "SPC", feeSymbol: "SFC", amount: "1.2", receiver: "maochuntest7@secuxtech.com")

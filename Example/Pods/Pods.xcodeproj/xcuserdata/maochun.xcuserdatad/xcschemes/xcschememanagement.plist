@@ -14,7 +14,7 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>secux-paymentdevicekit.xcscheme_^#shared#^_</key>
+		<key>secux-paymentdevicekit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -22,7 +22,7 @@
 		<key>secux-paymentkit-v2.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>isShown</key>
-			<true/>
+			<false/>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>

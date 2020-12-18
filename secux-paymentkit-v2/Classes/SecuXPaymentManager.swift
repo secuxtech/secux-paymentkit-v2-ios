@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 import CoreNFC
 
 
@@ -443,6 +444,24 @@ open class SecuXPaymentManager: SecuXPaymentManagerBase {
                                                                                             
         return (SecuXRequestResult.SecuXRequestFailed, ivkey);
                                                                                                                 
+    }
+    
+    open func generateEncryptedData(ivkey:String, userID:String, devID:String, coin:String, token:String, transID:String, amount:String, type:String) ->(SecuXRequestResult, String){
+    
+        let (svrRet, reply) = self.secXSvrReqHandler.encryptPaymentData(sender: userID, devID: devID, ivKey: ivkey,
+                                                                        coin: coin, token: token, transID: transID, amount: amount, memo: type)
+        if svrRet == SecuXRequestResult.SecuXRequestOK,
+           let replyData = reply,
+           let replyStr = String(data: replyData, encoding: .utf8){
+            
+            return (SecuXRequestResult.SecuXRequestOK, replyStr)
+                  
+        }else{
+            if let replyData = reply, let error = String(data: replyData, encoding: .utf8){
+                return (SecuXRequestResult.SecuXRequestFailed, "\(error)");
+            }
+            return (SecuXRequestResult.SecuXRequestFailed, "Server error");
+        }
     }
     
     #endif

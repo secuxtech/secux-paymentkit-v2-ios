@@ -26,15 +26,16 @@ class ViewController: UIViewController {
         let encInfo = util.encryptInfoData(info: "{\"transactionId\" : \"805eefa0db020bf5\",\"memo\": \"test\"}", key: "JdVa0oOqQAr0ZMdtcTwHrQ==")
         print("encInfo \(String(describing: encInfo))")
         
-        theUserAccount = SecuXUserAccount(email: "maochuntest1@secuxtech.com", phone: "0975123456", password: "12345678")
+        //theUserAccount = SecuXUserAccount(email: "maochuntest1@secuxtech.com", phone: "0975123456", password: "12345678")
+        theUserAccount = SecuXUserAccount(email: "0932337867@bitsense.tw", phone: "0975123456", password: "hollygold093233")
         self.accountManager.setBaseServer(url: "https://pmsweb-sandbox.secuxtech.com")
         
         self.accountManager.setAdminAccount(name: "secux_register", password: "!secux_register@123")
         
         self.paymentManager.delegate = self
         DispatchQueue.global(qos: .default).async {
-            self.doAccountActions()
-            //self.doPaymentActions()
+            //self.doAccountActions()
+            self.doPaymentActions()
             
             //self.doRefundReillTest()
             //self.doEncryptPaymentDataTest()
@@ -186,6 +187,15 @@ class ViewController: UIViewController {
     //Try payment related functions
     func doPaymentActions(){
         
+        var (ret, data) = accountManager.loginUserAccount(userAccount: theUserAccount!)
+        guard ret == SecuXRequestResult.SecuXRequestOK else{
+            print("login failed!")
+            if let data = data{
+                print("Error: \(String(data: data, encoding: String.Encoding.utf8) ?? "")")
+            }
+            return
+        }
+        
         //Get payment history
         print("get payment history")
         var pageIdx = 0
@@ -212,6 +222,7 @@ class ViewController: UIViewController {
             pageIdx += 1
         }
         
+        /*
         //Pay to store
         //let paymentInfo = "{\"amount\":\"1.5\", \"coinType\":\"DCT\", \"token\":\"SPC\",\"deviceIDhash\":\"f962639145992d7a710d33dcca503575eb85d759\"}"
         
@@ -223,7 +234,7 @@ class ViewController: UIViewController {
         
         let paymentInfo = "{\"amount\":\"2\", \"coinType\":\"DCT:SPC\",\"deviceIDhash\":\"b273e189b06b874969fd5a75cd3489dc03873c85\"}"
         
-        let (ret, data) = paymentManager.getPaymentInfo(paymentInfo: paymentInfo)
+        (ret, data) = paymentManager.getPaymentInfo(paymentInfo: paymentInfo)
         if ret == SecuXRequestResult.SecuXRequestOK, let data = data{
             print("get payment info. done")
             guard let responseJson = try? JSONSerialization.jsonObject(with: data, options: []) as? [String:Any] else{
@@ -263,6 +274,7 @@ class ViewController: UIViewController {
         }else{
             print("get payment info. from server failed")
         }
+        */
     
     }
     

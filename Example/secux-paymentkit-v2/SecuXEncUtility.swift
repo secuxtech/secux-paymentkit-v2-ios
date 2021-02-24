@@ -184,7 +184,7 @@ open class SecuXEncUtility {
             }
             
             return digestData
-       // }
+       }
         
     }
     
@@ -199,7 +199,7 @@ open class SecuXEncUtility {
     
     
     
-    open func encryptInfoData(info:String, key:String) -> String?{
+    func encryptInfoData(info:String, key:String) -> String?{
         
         
         guard let ivData = MD5(string: key) else{

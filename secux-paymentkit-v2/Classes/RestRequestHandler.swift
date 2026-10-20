@@ -127,22 +127,7 @@ open class RestRequestHandler {
           
             if let response = response as? HTTPURLResponse{
                 
-                #if DEBUG
-                print(request.url ?? "")
-                if let requestData = request.httpBody{
-                    print(String(decoding: requestData, as: UTF8.self))
-                }
-                #endif
-                
                 if response.statusCode == 200{
-                    
-                    #if DEBUG
-                    print(request.url ?? "")
-                    if let requestData = request.httpBody{
-                        print(String(decoding: requestData, as: UTF8.self))
-                    }
-                    print(String(decoding: data!, as: UTF8.self))
-                    #endif
                   
                     dataRet = data
                     taskRet = SecuXRequestResult.SecuXRequestOK
@@ -157,19 +142,8 @@ open class RestRequestHandler {
                     dataRet = "Forbidden operation".data(using: .utf8)
                     
                 }else{
-                    logw("Error: \(error?.localizedDescription ?? "") url request response \(request) \(response.statusCode)")
                     
-                    if let url = request.url{
-                        logw("request url = \(url)")
-                    }
-                    
-                    if let bodyData = request.httpBody, let dataStr = String(data: bodyData, encoding: String.Encoding.utf8){
-                        logw("\(dataStr)")
-                        
-                    }
-                    
-                    if let data = data, let dataStr = String(data: data, encoding: String.Encoding.utf8){
-                        logw("\(dataStr)")
+                    if let data = data, String(data: data, encoding: String.Encoding.utf8) != nil {
                         
                         dataRet = data
                     }

@@ -22,24 +22,20 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        let util = SecuXEncUtility()
-        let encInfo = util.encryptInfoData(info: "{\"transactionId\" : \"805eefa0db020bf5\",\"memo\": \"test\"}", key: "JdVa0oOqQAr0ZMdtcTwHrQ==")
-        print("encInfo \(String(describing: encInfo))")
-        
-        //theUserAccount = SecuXUserAccount(email: "maochuntest1@secuxtech.com", phone: "0975123456", password: "12345678")
-        theUserAccount = SecuXUserAccount(email: "0932337867@bitsense.tw", phone: "0975123456", password: "hollygold093233")
-        self.accountManager.setBaseServer(url: "https://pmsweb-sandbox.secuxtech.com")
-        
-        self.accountManager.setAdminAccount(name: "secux_register", password: "!secux_register@123")
-        
         self.paymentManager.delegate = self
-        DispatchQueue.global(qos: .default).async {
-            //self.doAccountActions()
-            self.doPaymentActions()
-            
-            //self.doRefundReillTest()
-            //self.doEncryptPaymentDataTest()
+        // No automatic account, payment or encryption demo runs on launch.
+        // Configure disposable test credentials explicitly before calling a demo action.
+    }
+
+    func configureDemo(account: SecuXUserAccount, adminName: String, adminPassword: String) -> Bool {
+        guard !account.name.isEmpty, !account.password.isEmpty,
+              !adminName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+              !adminPassword.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            return false
         }
+        theUserAccount = account
+        accountManager.setAdminAccount(name: adminName, password: adminPassword)
+        return true
     }
 
     override func didReceiveMemoryWarning() {
@@ -49,6 +45,7 @@ class ViewController: UIViewController {
 
     //Try account related functions
     func doAccountActions(){
+        guard theUserAccount != nil else { return }
         
         //Get all server supported coin and token
         
@@ -82,8 +79,6 @@ class ViewController: UIViewController {
             return
         }
         
-        //(ret, data) = accountManager.changePassword(oldPwd: "12345678", newPwd: "123456")
-        //(ret, data) = accountManager.changePassword(oldPwd: "123456", newPwd: "12345678")
         
         
         //Get all coin account
@@ -186,6 +181,7 @@ class ViewController: UIViewController {
     
     //Try payment related functions
     func doPaymentActions(){
+        guard theUserAccount != nil else { return }
         
         var (ret, data) = accountManager.loginUserAccount(userAccount: theUserAccount!)
         guard ret == SecuXRequestResult.SecuXRequestOK else{
@@ -279,6 +275,7 @@ class ViewController: UIViewController {
     }
     
     func doRefundReillTest(){
+        guard theUserAccount != nil else { return }
         let (ret, data) = accountManager.loginUserAccount(userAccount: theUserAccount!)
         guard ret == SecuXRequestResult.SecuXRequestOK else{
             print("login failed!")
@@ -293,6 +290,7 @@ class ViewController: UIViewController {
     }
     
     func doEncryptPaymentDataTest(){
+        guard theUserAccount != nil else { return }
         let (ret, data) = accountManager.loginUserAccount(userAccount: theUserAccount!)
         guard ret == SecuXRequestResult.SecuXRequestOK else{
             print("login failed!")

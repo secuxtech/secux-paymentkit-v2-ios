@@ -81,7 +81,7 @@ Use SecuXAccountManager object to do the operations below.
 #### <u>Sample</u>
 ```swift
     let accMgr = SecuXAccountManager()
-    accMgr.setAdminAccount(name:"testAccount", password:"12345678")
+    accMgr.setAdminAccount(name:"testAccount", password:userPassword)
 ```
 
 ### 2. SecuXAccount related operations
